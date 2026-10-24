@@ -134,5 +134,33 @@
   },
   "s": 17.0,
   "kz_pos": 12
+ },
+ {
+  "t": "2026-10-24T12:48:19+02:00",
+  "n": 398,
+  "failed": 0,
+  "dist": {
+   "Halten": 185,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 29,
+   "Kaufzone": 12
+  },
+  "s": 18.2,
+  "kz_pos": 12
+ },
+ {
+  "t": "2026-10-24T12:51:07+02:00",
+  "n": 398,
+  "failed": 0,
+  "dist": {
+   "Halten": 184,
+   "Beobachten": 69,
+   "Meiden": 104,
+   "Überhitzt": 29,
+   "Kaufzone": 12
+  },
+  "s": 16.8,
+  "kz_pos": 12
  }
 ]
