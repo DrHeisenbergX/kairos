@@ -758,6 +758,65 @@ select.input option{background:var(--card-solid);color:var(--text)}
 #listSum{display:block;font-size:12.5px;color:var(--muted);margin:10px 2px 6px;line-height:1.5}
 #listSum b{color:var(--text)}
 #listSum .link-btn{display:inline;padding:0}
+/* ===== v2: Gebühren-Check, Sparplan, So rechnet Kairos ===== */
+.vd{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:650;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.vd.ok{background:var(--mint-soft);color:var(--mint)}.vd.warn{background:var(--warn-soft);color:var(--warn)}.vd.bad{background:color-mix(in srgb,var(--danger) 14%,transparent);color:var(--danger)}
+.tbox.blocked{background:var(--input);border-color:color-mix(in srgb,var(--warn) 40%,var(--border))}
+.feebar{margin:10px 0 4px}
+.fb-track{display:flex;height:10px;border-radius:999px;overflow:hidden;background:var(--card-solid);border:1px solid var(--border)}
+.fb-track i{display:block;height:100%}.fb-net{background:linear-gradient(90deg,var(--mint),color-mix(in srgb,var(--mint) 70%,var(--accent)))}.fb-fee{background:repeating-linear-gradient(135deg,var(--warn) 0 6px,color-mix(in srgb,var(--warn) 70%,transparent) 6px 12px)}
+.fb-leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px;color:var(--muted);margin-top:6px}
+.fb-leg i{display:inline-block;width:8px;height:8px;border-radius:3px;margin-right:5px;vertical-align:0}.d-net{background:var(--mint)}.d-fee{background:var(--warn)}
+.fb-leg span:last-child{margin-left:auto}
+.fee-tl{color:var(--warn);display:flex;align-items:center;gap:5px}
+.pill-chf{display:inline-block;margin-left:7px;padding:1px 6px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.04em;background:var(--mint-soft);color:var(--mint);vertical-align:1px}
+.fc-row{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0}
+.fc-row+.fc-row{border-top:1px solid var(--border)}
+.fc-l b{display:block;font-size:13.5px;font-weight:600}.fc-l small,.fc-v small{display:block;font-size:11.5px;color:var(--muted)}
+.fc-bar{height:8px;border-radius:999px;background:var(--input);overflow:hidden}.fc-bar i{display:block;height:100%;border-radius:999px}
+.fc-bar i.ok{background:var(--mint)}.fc-bar i.mid{background:var(--warn)}.fc-bar i.bad{background:var(--danger)}
+.fc-v{text-align:right}.fc-v b{font-size:14px}
+.plan-teaser .pt-big{display:flex;flex-direction:column;gap:2px;padding:14px 16px;border-radius:16px;background:linear-gradient(150deg,var(--mint-soft),transparent 80%),var(--input);border:1px solid color-mix(in srgb,var(--mint) 30%,var(--border));margin-bottom:10px}
+.pt-big span{font-size:12px;color:var(--muted)}.pt-big b{font-size:22px;font-weight:700;color:var(--mint);letter-spacing:-.01em}.pt-big small{font-size:12.5px;color:var(--text2)}
+.plan-teaser .btn{margin-top:10px}
+.tbl small.tn{display:block;font-size:10.5px;color:var(--muted);font-weight:400}
+.bt2 tr.g-old td{color:var(--text2)}.bt2 tr.g-kz td:first-child{font-weight:650}.bt2 tr.g-kz{background:color-mix(in srgb,var(--mint) 7%,transparent)}.bt2 tr.g-rnd td:first-child{font-style:italic;color:var(--text2)}
+.more-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px}
+.ml{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;border:1px solid var(--border);background:var(--input);text-align:left;color:var(--text);transition:.2s var(--ease)}
+.ml:hover{border-color:var(--border-strong)}.ml>span:nth-child(2){flex:1;min-width:0}.ml b{display:block;font-size:14px}.ml small{display:block;font-size:12px;color:var(--muted)}.ml>svg{color:var(--muted)}
+.amt-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.pc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pc-grid>div{padding:12px;border-radius:14px;background:var(--input);border:1px solid var(--border);display:flex;flex-direction:column;gap:2px;min-width:0}
+.pc-grid>div.best{border-color:color-mix(in srgb,var(--mint) 45%,var(--border));background:linear-gradient(150deg,var(--mint-soft),transparent 80%),var(--input)}
+.pc-grid small{font-size:11.5px;color:var(--muted)}.pc-grid b{font-size:20px;font-weight:700}.pc-grid span{font-size:11.5px;color:var(--muted)}
+.facts{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.facts li{display:flex;gap:10px;font-size:13.5px;line-height:1.45}.facts li svg{width:16px;height:16px;flex:none;margin-top:2px;color:var(--accent)}
+.plan-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.plan-it{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:16px;border:1px solid var(--border);background:var(--input);text-align:left;color:var(--text);transition:.2s var(--ease)}
+.plan-it:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.pi-top{display:flex;align-items:center;gap:10px}.pi-top .opp-m{flex:1;min-width:0}
+.pi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.pi-grid>div{padding:7px 8px;border-radius:10px;background:var(--card-solid);border:1px solid var(--border)}.pi-grid small{display:block;font-size:10.5px;color:var(--muted)}.pi-grid b{font-size:13px}
+.pi-sim{font-size:12.5px;color:var(--text2)}
+.calc{margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--input);border:1px solid var(--border);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 16px;font-size:13px}
+.calc>b{grid-column:1/-1;font-size:14px}.calc>div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed var(--border);padding:4px 0}.calc span{color:var(--muted)}
+.calc>div.tot{grid-column:1/-1;border:0;font-size:14.5px}.calc>div.tot b{color:var(--warn)}
+.rules{margin:4px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.5}
+.cls{padding:12px;border-radius:14px;background:var(--input);border:1px solid var(--border);margin-bottom:10px}.cls>b{font-size:14px}
+.cls-g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:8px}.cls-g small{display:block;font-size:10.5px;color:var(--muted)}.cls-g b{font-size:13px}
+@media (max-width:1100px){.how .span-6{grid-column:span 12}}
+@media (max-width:760px){
+ .more-links{grid-template-columns:1fr}
+ .pc-grid{grid-template-columns:1fr 1fr}.pc-grid>div:last-child{grid-column:1/-1}
+ .pc-grid b{font-size:18px}
+ .calc{grid-template-columns:1fr}
+ .cls-g{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .plan-list{grid-template-columns:1fr}
+ .fc-row{grid-template-columns:minmax(0,1fr) 70px auto;gap:10px}
+ .fb-leg span:last-child{margin-left:0}
+}
+.tb-h{flex-wrap:wrap}
+@media (max-width:760px){.tb-h b{flex:1 1 0;min-width:0}.tb-h .vd{order:3;margin-left:26px}}
 
 </style>
 </head>
@@ -814,6 +873,8 @@ select.input option{background:var(--card-solid);color:var(--text)}
     </section>
     <section class="view" data-view="watch" aria-label="Watchlist"><div id="watchView"></div></section>
     <section class="view" data-view="pos" aria-label="Meine Positionen"><div id="posView"></div></section>
+    <section class="view" data-view="plan" aria-label="Sparplan"><div id="planView"></div></section>
+    <section class="view" data-view="how" aria-label="So rechnet Kairos"><div id="howView"></div></section>
     <section class="view" data-view="settings" aria-label="Einstellungen"><div id="settingsView"></div></section>
   </main>
 </div>
@@ -923,7 +984,7 @@ Object.assign(ICONS,{
 });
 
 /* ===== Kairos – Kern: Formate, Zustand, Gebühren, Daten ===== */
-const APP_VERSION='1.0.0',SCHEMA=1,KEY='kairos.v1',THEME_KEY='kairos.theme',HINT_KEY='kairos.hint';
+const APP_VERSION='2.0.0',SCHEMA=2,KEY='kairos.v1',THEME_KEY='kairos.theme',HINT_KEY='kairos.hint';
 const IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const ic=(n,style='')=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true"${style?` style="${style}"`:''}>${ICONS[n]||''}</svg>`;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -944,7 +1005,7 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 function parseAmt(s){s=String(s??'').replace(/[’'\s]/g,'').replace(',','.').replace(/^CHF/i,'');const n=parseFloat(s);return Number.isFinite(n)?n:NaN}
 
 /* ---------- Lokaler Zustand (startet leer) ---------- */
-const DEF={v:SCHEMA,watch:[],pos:[],settings:{stake:100,goal:20,risk:'ausgewogen'},stakes:{}};
+const DEF={v:SCHEMA,watch:[],pos:[],settings:{stake:100,goal:20,risk:'ausgewogen',plan:50},stakes:{}};
 const LOAD_WARN=[];
 function sanitize(o){
   const s=JSON.parse(JSON.stringify(DEF));if(!o||typeof o!=='object')return s;
@@ -955,51 +1016,73 @@ function sanitize(o){
   s.settings.stake=clamp(Number.isFinite(+st.stake)&&+st.stake>0?+st.stake:100,10,1e6);
   s.settings.goal=clamp(Number.isFinite(+st.goal)&&+st.goal>0?+st.goal:20,1,1e5);
   if(!['vorsichtig','ausgewogen','offensiv'].includes(st.risk))s.settings.risk='ausgewogen';
+  s.settings.plan=clamp(Number.isFinite(+st.plan)&&+st.plan>0?+st.plan:50,10,1e5);
+  s.v=SCHEMA;
   s.stakes={};if(o.stakes&&typeof o.stakes==='object')for(const[k,v]of Object.entries(o.stakes))if(Number.isFinite(+v)&&+v>=10&&+v<=1e6)s.stakes[k]=+v;
   return s}
 function uid(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
 let S;
-try{const raw=localStorage.getItem(KEY);if(raw){try{S=sanitize(JSON.parse(raw))}catch(e){try{localStorage.setItem(KEY+'.backup-'+Date.now(),raw)}catch(_){}S=sanitize(null);LOAD_WARN.push('Gespeicherte Daten waren beschädigt – Sicherung angelegt, neu gestartet.')}}else S=sanitize(null)}catch(e){S=sanitize(null)}
+try{const raw=localStorage.getItem(KEY);if(raw){try{const o=JSON.parse(raw);const ov=o&&+o.v||1;
+  /* Migration: ältere Daten unverändert sichern, dann übernehmen (nie löschen) */
+  if(ov<SCHEMA){try{const bk=KEY+'.backup-v'+ov;if(!localStorage.getItem(bk))localStorage.setItem(bk,raw)}catch(_){}}
+  S=sanitize(o);if(ov<SCHEMA){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(_){}}}catch(e){try{localStorage.setItem(KEY+'.backup-'+Date.now(),raw)}catch(_){}S=sanitize(null);LOAD_WARN.push('Gespeicherte Daten waren beschädigt – Sicherung angelegt, neu gestartet.')}}else S=sanitize(null)}catch(e){S=sanitize(null)}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Speichern nicht möglich (Speicher voll oder privat?)',null,'warn')}}
 
 /* ---------- Yuh-Gebührenmodell (Werte aus signals.json, Fallback hier) ---------- */
-let FEES={securities_tiers:[[10000,.005],[20000,.0035],[null,.0025]],securities_min:1,crypto_pct:.01,fx_pct:.0095,stamp_ch:.00075,stamp_foreign:.0015};
-function feeParts(amount,o){
+let FEES={securities_tiers:[[10000,.005],[20000,.0035],[null,.0025]],securities_min:1,crypto_pct:.01,fx_pct:.0095,stamp_ch:.00075,stamp_foreign:.0015,plan_min:10};
+function feeParts(amount,o,plan){
   if(amount<=0)return{comm:0,stamp:0,fx:0,total:0};
   if(o.kind==='Krypto'){const c=amount*FEES.crypto_pct;return{comm:c,stamp:0,fx:0,total:c}}
   let p=FEES.securities_tiers[FEES.securities_tiers.length-1][1];for(const[l,q]of FEES.securities_tiers){if(l==null||amount<=l){p=q;break}}
-  const comm=Math.max(FEES.securities_min,amount*p),stamp=amount*(o.ch?FEES.stamp_ch:FEES.stamp_foreign),fx=o.fxfee?amount*FEES.fx_pct:0;
+  const comm=plan?0:Math.max(FEES.securities_min,amount*p),stamp=amount*(o.ch?FEES.stamp_ch:FEES.stamp_foreign),fx=o.fxfee?amount*FEES.fx_pct:0;
   return{comm,stamp,fx,total:comm+stamp+fx}}
-const feeSide=(a,o)=>feeParts(a,o).total;
-/* Einsatz inkl. Kaufgebühren; up/down als Anteil (0.05 = 5 %) */
-function trade(stake,up,down,o){
-  const fb=feeParts(stake,o),inv=stake-fb.total,vt=inv*(1+up),vs=inv*(1-down);
-  const ft=feeParts(vt,o),fs=feeParts(vs,o);
-  return{inv,fb,ft,fs,gain:vt-ft.total-stake,loss:vs-fs.total-stake,fees:fb.total+ft.total,gross:inv*up,grossLoss:-inv*down}}
+const feeSide=(a,o,plan)=>feeParts(a,o,plan).total;
+/* Netto in CHF: Einsatz inkl. Kaufgebühr, Kursveränderung ret (in CHF) – identisch zu strategy.net_chf */
 function netAt(stake,ret,o){const fb=feeSide(stake,o),inv=stake-fb,v=inv*(1+ret);return v-feeSide(v,o)-stake}
-function pSetup(o){const ps=DATA&&DATA.p_setup||{};return o.pl&&ps[o.pl.setup]||null}
-/* Erwartungswert: Häufigkeiten Ziel/Stopp/Ablauf aus dem Rückblick-Test des Setups */
-function ev(o,stake){if(!o.pl)return null;const p=pSetup(o);if(!p)return null;const t=trade(stake,o.pl.up,o.pl.dn,o);return p.pt*t.gain+p.ps*t.loss+p.pa*netAt(stake,p.ra||0,o)}
+function tradeAt(stake,ret,o){const fb=feeParts(stake,o),inv=stake-fb.total,v=inv*(1+ret),fs=feeParts(v,o);return{fb,fs,inv,gross:inv*ret,fees:fb.total+fs.total,net:v-fs.total-stake}}
+/* Kurs muss so viel steigen, damit nach allen Gebühren nichts verloren ist */
+function breakEven(stake,o){let lo=0,hi=1;for(let k=0;k<50;k++){const m=(lo+hi)/2;if(netAt(stake,m,o)>=0)hi=m;else lo=m}return hi}
+const RULES=()=>(DATA&&DATA.rules)||{hold:120,max_fee_share:.5,good_fee_share:.2,min_ev:.5,setups:{}};
+const clsOf=o=>o&&o.pl&&DATA&&DATA.classes?DATA.classes[o.pl.setup]||null:null;
+/* Erwartetes Netto-Ergebnis: jeder frühere Ausgang (50 Stützstellen) einzeln nach Gebühren – identisch zu strategy.expect */
+function expectAt(stake,o){const st=clsOf(o);if(!st)return null;
+  const nets=st.q.map(v=>netAt(stake,v,o));const inv=stake-feeSide(stake,o);const adj=inv*(st.mean-st.qm);const sp=feeSide(1e4,o)/1e4;
+  return{ev:nets.reduce((a,b)=>a+b,0)/nets.length+adj*(1-sp),gross:stake*st.mean,st}}
+function ev(o,stake){const e=expectAt(stake,o);return e?e.ev:null}
+function feeShareAt(stake,o){const e=expectAt(stake,o);if(!e||e.gross<=0)return Infinity;return Math.max(0,(e.gross-e.ev)/e.gross)}
+function passes(stake,o){const e=expectAt(stake,o);if(!e)return false;const R=RULES();return e.ev>=R.min_ev&&feeShareAt(stake,o)<=R.max_fee_share}
+const STAKE_GRID=(()=>{const g=[];for(let s=10;s<200;s+=10)g.push(s);for(let s=200;s<1000;s+=50)g.push(s);for(let s=1000;s<5000;s+=250)g.push(s);for(let s=5000;s<=50000;s+=1000)g.push(s);return g})();
+/* Ab welchem Einsatz besteht das Signal den Gebührenfilter? */
+function gateStake(o){const st=clsOf(o);if(!st||st.mean<=0)return null;for(const s of STAKE_GRID)if(passes(s,o))return s;return null}
+/* Effizienter Einsatz: Gebühren <= 20 % des Bruttogewinns (bzw. nahe am strukturellen Minimum bei Devisen-Titeln) */
+function minStake(o){const st=clsOf(o);if(!st||st.mean<=0)return null;const fl=feeShareAt(20000,o);const lim=Math.max(RULES().good_fee_share,fl*1.1);for(const s of STAKE_GRID)if(feeShareAt(s,o)<=lim)return s;return null}
+/* Wahrscheinlichkeit (aus früheren Signalen), nach der Haltedauer mindestens «goal» CHF netto zu haben */
+function probNet(stake,o,goal){const st=clsOf(o);if(!st)return null;return st.q.filter(v=>netAt(stake,v,o)>=goal).length/st.q.length}
+/* Einsatz für einen Netto-Zielgewinn beim typischen (Median-)Verlauf */
+function stakeFor(o,goal){const st=clsOf(o);if(!st||st.med<=0)return null;if(netAt(1e6,st.med,o)<goal)return null;let lo=10,hi=1e6;if(netAt(lo,st.med,o)>=goal)return lo;for(let k=0;k<60;k++){const m=(lo+hi)/2;if(netAt(m,st.med,o)>=goal)hi=m;else lo=m}return Math.ceil(hi/10)*10}
 function stakeOf(o){return S.stakes[o.t]||S.settings.stake}
-/* Gebührenanteil am Bruttogewinn (Ziel) */
-function feeShare(o,s){const t=trade(s,o.pl.up,o.pl.dn,o);return t.gross>0?t.fees/t.gross:Infinity}
-/* Struktureller Anteil: prozentuale Gebühren ohne Mindestgebühr (bei CHF 5'000) */
-function floorShare(o){return o.pl?feeShare(o,5000):null}
-/* Kleinster sinnvoller Einsatz: Gebühren <= 20 % des Bruttogewinns – oder, falls das wegen prozentualer
-   Gebühren nie erreichbar ist, ab wo die Mindestgebühr den Anteil nicht mehr als 10 % verschlechtert */
-function minStake(o){if(!o.pl)return null;const lim=Math.max(.2,floorShare(o)*1.1);for(let s=10;s<=50000;s+=s<200?10:s<1000?50:s<5000?250:1000){if(feeShare(o,s)<=lim)return s}return null}
-/* Einsatz für einen Netto-Zielgewinn */
-function stakeFor(o,goal){if(!o.pl)return null;if(trade(1e6,o.pl.up,o.pl.dn,o).gain<goal)return null;let lo=10,hi=1e6;if(trade(lo,o.pl.up,o.pl.dn,o).gain>=goal)return lo;for(let k=0;k<60;k++){const m=(lo+hi)/2;if(trade(m,o.pl.up,o.pl.dn,o).gain>=goal)hi=m;else lo=m}return Math.ceil(hi/5)*5}
+/* Gesamter Gebührenblock eines Signals bei einem Einsatz */
+function feeCheck(o,stake){const e=expectAt(stake,o);const st=e&&e.st;const med=st?st.med:0;const t=tradeAt(stake,med,o);
+  return{stake,e:e?e.ev:null,gross:e?e.gross:null,share:e?feeShareAt(stake,o):null,buy:t.fb,sell:t.fs,fees:t.fees,fx:t.fb.fx+t.fs.fx,be:breakEven(stake,o),rt:-netAt(stake,0,o),
+    med:st?netAt(stake,st.med,o):null,bad:st?netAt(stake,st.p10,o):null,good:st?netAt(stake,st.p90,o):null,pPos:st?probNet(stake,o,0.005):null,st}}
 
 /* ---------- Risikoprofil ---------- */
-const PROFILES={vorsichtig:{l:'Vorsichtig',d:'Nur ruhige Titel (Volatilität unter 25 %), keine Krypto oder Krypto-ETPs, Chance/Risiko mindestens 2.',ok:o=>o.rk==='tief'&&o.ty!=='Krypto'&&o.pl&&o.pl.rr>=2},
+const PROFILES={vorsichtig:{l:'Vorsichtig',d:'Nur ruhige Titel (Volatilität unter 25 %), keine Krypto oder Krypto-ETPs.',ok:o=>o.rk==='tief'&&o.ty!=='Krypto'&&o.rg!=='Krypto-ETP'},
   ausgewogen:{l:'Ausgewogen',d:'Ruhige und mittlere Schwankung (Volatilität bis 45 %), ohne stark schwankende Titel, Krypto und Krypto-ETPs. Standard.',ok:o=>o.rk!=='hoch'},
-  offensiv:{l:'Offensiv',d:'Alle Signale inklusive stark schwankender Aktien und Krypto.',ok:()=>true}};
+  offensiv:{l:'Offensiv',d:'Alle Signale inklusive stark schwankender Aktien. Krypto erzeugt keine Kaufzone (über 6 Monate im Test negativ).',ok:()=>true}};
 const fits=o=>PROFILES[S.settings.risk].ok(o);
-const sigEff=o=>o.sig==='Kaufzone'&&!fits(o)?'Beobachten':o.sig;
-const SIGS=[{k:'Kaufzone',c:'kauf',d:'Setup mit gutem Chance/Risiko'},{k:'Beobachten',c:'beob',d:'Noch kein klares Signal'},{k:'Halten',c:'halt',d:'Trend intakt, kein neuer Einstieg'},{k:'Überhitzt',c:'hot',d:'Stark gelaufen – Rücksetzer abwarten'},{k:'Meiden',c:'meid',d:'Abwärtstrend'}];
+/* Signal für deinen Einsatz: Kaufzone nur, wenn der Gebührenfilter bei DEINEM Einsatz besteht */
+const SE=new Map();let SEkey='';
+function sigEff(o){const k=S.settings.stake+'|'+S.settings.risk+'|'+JSON.stringify(S.stakes)+'|'+(DATA&&DATA.generated);if(k!==SEkey){SE.clear();SEkey=k}
+  if(SE.has(o.t))return SE.get(o.t);let r=o.sig;
+  if(o.pl&&o.pl.gate&&clsOf(o)){const ok=passes(stakeOf(o),o);r=ok?(fits(o)?'Kaufzone':'Beobachten'):(o.sig==='Kaufzone'?(o.alt||'Halten'):o.sig)}
+  else if(o.sig==='Kaufzone'&&!fits(o))r='Beobachten';
+  SE.set(o.t,r);return r}
+/* Setup vorhanden, aber Gebühren fressen den Vorteil bei deinem Einsatz */
+const feeBlocked=o=>!!(o.pl&&o.pl.gate&&clsOf(o)&&fits(o)&&!passes(stakeOf(o),o));
+const SIGS=[{k:'Kaufzone',c:'kauf',d:'Setup mit positiver Netto-Erwartung'},{k:'Beobachten',c:'beob',d:'Noch kein klares Signal'},{k:'Halten',c:'halt',d:'Trend intakt, kein neuer Einstieg'},{k:'Überhitzt',c:'hot',d:'Stark gelaufen – Rücksetzer abwarten'},{k:'Meiden',c:'meid',d:'Abwärtstrend'}];
 const sigCls=k=>(SIGS.find(s=>s.k===k)||SIGS[1]).c;
-const SETUP_DE={rebound:'Erholung aus überverkaufter Lage',pullback:'Rücksetzer an die 50-Tage-Linie',breakout:'Ausbruch über Widerstand',momentum:'Momentum-Fortsetzung'};
+const SETUP_DE={momentum:'Trend-Momentum (Top 10 %)',pullback:'Rücksetzer im Aufwärtstrend',rebound:'Erholung (alte Regel)',breakout:'Ausbruch (alte Regel)'};
 
 /* ---------- Daten laden ---------- */
 let DATA=null,BY={},LOADERR=null,FROMCACHE=false;
@@ -1018,6 +1101,8 @@ const VIEWS=[
   {id:'signals',label:'Signale',icon:'activity',title:()=>'Signale',sub:()=>DATA?`${DATA.count} bei Yuh handelbare Instrumente`:'Alle Instrumente'},
   {id:'watch',label:'Watchlist',icon:'star',title:()=>'Watchlist',sub:()=>S.watch.length?`${S.watch.length} beobachtet`:'Deine beobachteten Titel'},
   {id:'pos',label:'Positionen',icon:'briefcase',title:()=>'Meine Positionen',sub:()=>S.pos.length?`${S.pos.length} bei Yuh erfasst`:'Was du bei Yuh hältst'},
+  {id:'plan',label:'Sparplan',icon:'coins',title:()=>'Sparplan',sub:()=>'Gebührenfrei kaufen – der günstigste Weg bei Yuh'},
+  {id:'how',label:'So rechnet Kairos',icon:'percent',title:()=>'So rechnet Kairos',sub:()=>'Gebühren, Regeln und ehrlicher Rückblick-Test'},
   {id:'settings',label:'Einstellungen',icon:'gear',title:()=>'Einstellungen',sub:()=>'Risikoprofil, Einsatz und Daten'}
 ];
 function greeting(){const h=new Date().getHours();return (h<11?'Guten Morgen':h<18?'Guten Tag':'Guten Abend')+', CyberX'}
@@ -1026,8 +1111,8 @@ function kzCount(){return DATA?DATA.instruments.filter(o=>sigEff(o)==='Kaufzone'
 function buildNav(){
   const n=kzCount();
   $('#sideNav').innerHTML=VIEWS.map(v=>`<button class="nav-btn${v.id===current?' active':''}" data-goto="${v.id}"${v.id===current?' aria-current="page"':''}>${ic(v.icon)}${v.label}${v.id==='signals'&&n?`<span class="count num kz">${n}</span>`:v.id==='watch'&&S.watch.length?`<span class="count num">${S.watch.length}</span>`:v.id==='pos'&&S.pos.length?`<span class="count num">${S.pos.length}</span>`:''}</button>`).join('');
-  const mob=[{id:'dashboard',l:'Übersicht',i:'grid'},{id:'signals',l:'Signale',i:'activity'},{id:'watch',l:'Watchlist',i:'star'},{id:'pos',l:'Positionen',i:'briefcase'},{id:'settings',l:'Mehr',i:'gear'}];
-  $('#bottomNav').innerHTML=mob.map(v=>{const on=v.id===current;return `<button class="${on?'active':''}" data-goto="${v.id}"${on?' aria-current="page"':''}><span class="nb-wrap">${ic(v.i,'width:20px;height:20px')}</span>${v.l}</button>`}).join('');
+  const MORE=['settings','plan','how'];const mob=[{id:'dashboard',l:'Übersicht',i:'grid'},{id:'signals',l:'Signale',i:'activity'},{id:'watch',l:'Watchlist',i:'star'},{id:'pos',l:'Positionen',i:'briefcase'},{id:'settings',l:'Mehr',i:'gear'}];
+  $('#bottomNav').innerHTML=mob.map(v=>{const on=v.id===current||(v.id==='settings'&&MORE.includes(current));return `<button class="${on?'active':''}" data-goto="${v.id}"${on?' aria-current="page"':''}><span class="nb-wrap">${ic(v.i,'width:20px;height:20px')}</span>${v.l}</button>`}).join('');
 }
 function setHeader(){const v=VIEWS.find(v=>v.id===current);$('#pageTitle').textContent=v.title();$('#pageSub').textContent=v.sub()}
 function go(id){
@@ -1036,7 +1121,7 @@ function go(id){
   setHeader();buildNav();renderView(id);window.scrollTo({top:0,behavior:'smooth'});
   try{history.replaceState(null,'','#'+id)}catch(e){}
 }
-function renderView(id){renderStale();if(id==='dashboard')renderDash();if(id==='signals')renderList();if(id==='watch')renderWatch();if(id==='pos')renderPos();if(id==='settings')renderSettings()}
+function renderView(id){renderStale();if(id==='dashboard')renderDash();if(id==='signals')renderList();if(id==='watch')renderWatch();if(id==='pos')renderPos();if(id==='settings')renderSettings();if(id==='plan')renderPlan();if(id==='how')renderHow()}
 function refresh(){persist();setHeader();buildNav();renderView(current)}
 function renderStale(){const el=$('#stale');if(!DATA){el.innerHTML='';return}
   const h=(Date.now()-new Date(DATA.generated))/36e5;
@@ -1052,47 +1137,70 @@ function mono(o){const t=o.t.replace(/[-.].*$/,'');const c=o.ty==='Krypto'?'kr':
 function sparkSvg(a,w=120,h=36){a=(a||[]).filter(v=>v!=null);if(a.length<2)return '';const mn=Math.min(...a),mx=Math.max(...a),rg=mx-mn||1;
   const pts=a.map((v,i)=>`${(i/(a.length-1)*w).toFixed(1)},${(h-3-(v-mn)/rg*(h-6)).toFixed(1)}`).join(' ');const up=a[a.length-1]>=a[0];
   return `<svg class="spk ${up?'up':'down'}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${pts}" fill="none" stroke-width="1.8" vector-effect="non-scaling-stroke"/></svg>`}
-function tradeLine(o,stake){if(!o.pl)return '';const t=trade(stake,o.pl.up,o.pl.dn,o);
-  return `<div class="tl num">Einsatz ${chf(stake,0)} → <b class="${t.gain>0?'pos':'negv'}">Ziel ${chfS(t.gain)}</b> netto nach Gebühren, <b class="negv">Risiko ${chf(t.loss)}</b></div>`}
+function tradeLine(o,stake){const e=ev(o,stake);if(e==null)return '';const c=feeCheck(o,stake);
+  return `<div class="tl num">Einsatz ${chf(stake,0)} → <b class="${e>0?'pos':'negv'}">erwartet ${chfS(e)}</b> netto · Gebühren ca. ${chf(c.fees)}</div>`}
+function feeLine(o,stake){const g=gateStake(o);return `<div class="tl num fee-tl">${ic('alert','width:13px;height:13px')}Setup da, aber Gebühren fressen den Vorteil bei ${chf(stake,0)}${g?` – sinnvoll ab ${chf(g,0)}`:' – bei Yuh bei keinem Einsatz sinnvoll'}</div>`}
 function instRow(o,{showTrade=true}={}){const st=stakeOf(o);const k=sigEff(o);
-  return `<button class="ir" data-open="${esc(o.t)}"><span class="ir-l">${mono(o)}<span class="ir-m"><span class="ir-n">${esc(o.n)}${S.watch.includes(o.t)?ic('starFill','width:13px;height:13px;color:var(--warn);margin-left:6px;vertical-align:-1px'):''}</span><span class="ir-s">${esc(o.t)} · ${esc(o.ty)} · ${esc(o.rg)}${o.sec&&o.ty==='Aktie'?' · '+esc(o.sec):''}</span>${showTrade&&k==='Kaufzone'?tradeLine(o,st):''}</span></span>
+  return `<button class="ir" data-open="${esc(o.t)}"><span class="ir-l">${mono(o)}<span class="ir-m"><span class="ir-n">${esc(o.n)}${S.watch.includes(o.t)?ic('starFill','width:13px;height:13px;color:var(--warn);margin-left:6px;vertical-align:-1px'):''}</span><span class="ir-s">${esc(o.t)} · ${esc(o.ty)} · ${esc(o.rg)}${o.sec&&o.ty==='Aktie'?' · '+esc(o.sec):''}</span>${showTrade&&k==='Kaufzone'?tradeLine(o,st):showTrade&&feeBlocked(o)?feeLine(o,st):''}</span></span>
   <span class="ir-r"><span class="ir-p num">${chf(o.pc)}</span><span class="ir-c">${chg(o.d1)}${badge(o)}</span></span></button>`}
 
 /* ===== Übersicht ===== */
-function topChances(){if(!DATA)return[];return DATA.instruments.filter(o=>o.sig==='Kaufzone'&&fits(o)).map(o=>({o,ev:ev(o,stakeOf(o)),t:trade(stakeOf(o),o.pl.up,o.pl.dn,o)})).sort((a,b)=>(b.ev??-1e9)-(a.ev??-1e9))}
+const FEE_PROFILES=[{l:'CH-Aktie an der SIX',s:'z. B. Nestlé, Sika',o:{kind:'Wertschrift',ch:true,fxfee:false}},{l:'Ausländischer Titel in CHF',s:'z. B. VWRL, Alcon',o:{kind:'Wertschrift',ch:false,fxfee:false}},{l:'USD/EUR-Titel',s:'+0.95 % Devisen je Richtung',o:{kind:'Wertschrift',ch:false,fxfee:true}},{l:'Krypto',s:'1 % je Richtung',o:{kind:'Krypto',ch:false,fxfee:false}}];
+function topChances(){if(!DATA)return[];return DATA.instruments.filter(o=>sigEff(o)==='Kaufzone').map(o=>({o,ev:ev(o,stakeOf(o)),c:feeCheck(o,stakeOf(o))})).sort((a,b)=>(b.ev??-1e9)-(a.ev??-1e9))}
+const nearStake=s=>[100,250,500].reduce((a,b)=>Math.abs(b-s)<Math.abs(a-s)?b:a,100);
+function oppCard({o,ev:e,c}){const chfT=o.ccy==='CHF'&&!o.fxfee;
+  return `<button class="opp" data-open="${esc(o.t)}">
+      <div class="opp-top">${mono(o)}<div class="opp-m"><div class="ir-n">${esc(o.n)}${chfT?'<span class="pill-chf">CHF</span>':''}</div><div class="ir-s">${esc(SETUP_DE[o.pl.setup])} · halten bis ca. ${dmy(o.pl.hz)}</div></div><div class="opp-ev ${e>0?'pos':'negv'}"><small>Erwartet netto</small><b class="num">${e==null?'–':chfS(e)}</b></div></div>
+      <div class="opp-bar num"><span class="g">Typisch ${chfS(c.med)}</span><span class="l">Schlecht ${chfS(c.bad)}</span><span class="f">Gebühren ${chf(c.fees)}</span><span>Gebührenanteil ${grp(Math.min(c.share,9.99)*100,0)} %</span></div></button>`}
 function renderDash(){const el=$('#dash');
   if(!DATA){el.innerHTML=`<div class="card"><div class="big-empty"><div class="be-ico">${ic(LOADERR?'alert':'refresh')}</div><h3>${LOADERR?'Daten konnten nicht geladen werden':'Daten werden geladen …'}</h3><p>${LOADERR?'Bitte Internetverbindung prüfen und erneut versuchen. Fehler: '+esc(LOADERR):'Einen Moment.'}</p>${LOADERR?'<button class="btn btn-primary" data-action="reload">Erneut versuchen</button>':''}</div></div>`;return}
-  const D=DATA,tops=topChances(),pos=tops.filter(x=>x.ev>0),stake=S.settings.stake;
+  const D=DATA,tops=topChances(),stake=S.settings.stake,blocked=D.instruments.filter(feeBlocked),fixable=blocked.filter(o=>gateStake(o)!=null);
   const mk=D.market.map(m=>{const v=m.k==='fx'?grp(m.v,4):m.k==='btc'?'USD '+grp(m.v,0):grp(m.v,2);
     return `<div class="mkt"><div class="mkt-h"><span class="mkt-n">${esc(m.n)}</span>${chg(m.d1,2)}</div><div class="mkt-v num">${v}</div><div class="mkt-f">${m.k==='btc'&&m.chf?`≈ ${chf(m.chf,0)} · `:''}1 Mt. ${pct(m.m1)}${m.up!=null?` · ${m.up?'über':'unter'} 200-T.`:''}</div>${sparkSvg(m.sp,160,34)}</div>`}).join('');
-  const bt=D.backtest&&D.backtest.all||{};const live=D.live||{};
+  const ns=nearStake(stake),B=D.backtest||{},g=B.oos&&B.oos.gate&&B.oos.gate[ns]||{},live=D.live||{};
   const dist=SIGS.map(s=>({...s,n:D.instruments.filter(o=>sigEff(o)===s.k).length}));const tot=D.instruments.length||1;
-  const topHtml=tops.length?tops.slice(0,6).map(({o,ev:e,t})=>`<button class="opp" data-open="${esc(o.t)}">
-      <div class="opp-top">${mono(o)}<div class="opp-m"><div class="ir-n">${esc(o.n)}</div><div class="ir-s">${esc(SETUP_DE[o.pl.setup])} · ${o.cf} · ${o.pl.hd[0]}–${o.pl.hd[1]} Tage</div></div><div class="opp-ev ${e>0?'pos':'negv'}"><small>Erwartung</small><b class="num">${e==null?'–':chfS(e)}</b></div></div>
-      <div class="opp-bar num"><span class="g">Ziel ${chfS(t.gain)}</span><span class="l">Risiko ${chf(t.loss)}</span><span class="f">Gebühren ${chf(t.fees)}</span><span>C/R ${grp(o.pl.rr,1)}</span></div></button>`).join(''):`<div class="soft-empty"><b>Heute keine Kaufzone-Signale</b> für dein Risikoprofil «${PROFILES[S.settings.risk].l}». Das ist auch eine Information: kein Setup erzwingen.</div>`;
-  const posNote=tops.length&&!pos.length?`<div class="note-bar warn" style="margin-top:12px">${ic('alert')}<span>Bei ${chf(stake,0)} Einsatz ist der erwartete Netto-Gewinn nach Gebühren bei keinem Signal positiv. Grössere Einsätze oder CHF-Titel (keine Devisengebühr von 0.95 % je Richtung) senken den Gebührenanteil.</span></div>`:'';
+  const topHtml=tops.length?tops.slice(0,6).map(oppCard).join(''):`<div class="soft-empty"><b>Heute keine Kaufzone</b> für dein Risikoprofil «${PROFILES[S.settings.risk].l}» bei ${chf(stake,0)} Einsatz. Kein Setup erzwingen – jeder Trade kostet Gebühren. ${blocked.length?'':'Für kleine Beträge ist der <button class="link-btn" data-goto="plan">Sparplan</button> der günstigere Weg.'}</div>`;
+  const blkNote=blocked.length?`<div class="note-bar warn" style="margin-top:12px">${ic('alert')}<span><b>${blocked.length} weitere Setup${blocked.length>1?'s':''}</b> lohn${blocked.length>1?'en':'t'} sich bei ${chf(stake,0)} wegen der Gebühren nicht${(()=>{const gs=blocked.map(gateStake).filter(Boolean);return gs.length?` – das günstigste erst ab ${chf(Math.min(...gs),0)}`:''})()}. <button class="link-btn" data-sig-go="Halten">Ansehen</button></span></div>`:'';
+  const compass=FEE_PROFILES.map(p=>{const rt=-netAt(stake,0,p.o),be=breakEven(stake,p.o),w=Math.min(100,be*100/7*100);return `<div class="fc-row"><div class="fc-l"><b>${p.l}</b><small>${p.s}</small></div><div class="fc-bar"><i style="width:${w.toFixed(1)}%" class="${be<.025?'ok':be<.035?'mid':'bad'}"></i></div><div class="fc-v num"><b>${chf(rt)}</b><small>+${grp(be*100,2)} % nötig</small></div></div>`}).join('');
+  const pl=(D.plans&&D.plans.items||[]).find(x=>x.t==='VWRL.SW')||(D.plans&&D.plans.items||[])[0];const pa=S.settings.plan;
+  const planTeaser=pl?(()=>{const o=BY[pl.t]||{kind:'Wertschrift',ch:pl.ch,fxfee:pl.fx};const save=12*(feeSide(pa,o)-feeSide(pa,o,true));return `<div class="card span-5 plan-teaser" style="--i:5"><div class="card-head"><div><div class="card-title">Kleiner Betrag? Sparplan.</div><div class="card-sub">Wiederkehrende ETF-Käufe sind bei Yuh ohne Handelsgebühr</div></div></div>
+    <div class="pt-big num"><span>${chf(pa,0)} / Monat</span><b>Kaufgebühr CHF 0.00</b><small>statt ${chf(feeSide(pa,o))} als Einzelkauf · spart ca. ${chf(save)} pro Jahr</small></div>
+    <p class="set-note">${ic('info')}<span>${esc(pl.n)}: ${chf(pl.inv,0)} über ${pl.m} Monate eingezahlt wären heute netto ${chf(pl.vp,0)} (Rückblick, nach Verkaufsgebühr).</span></p>
+    <button class="btn btn-secondary" data-goto="plan">${ic('coins','width:16px;height:16px')}Sparplan-ETFs ansehen</button></div>`})():'';
   el.innerHTML=`
   <div class="card mkt-card" style="--i:0;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Marktüberblick</div><div class="card-sub">Schlusskurse bzw. letzte verfügbare Kurse (verzögert)</div></div><span class="upd num">${ic('clock','width:14px;height:14px')}${fmtStamp(D.generated)} · ${ago(D.generated)}</span></div><div class="mkt-grid">${mk}</div></div>
   <div class="grid kpis" style="margin-bottom:20px">
-    <div class="card kpi hero span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('target')}</span>Kaufzone</div><div class="kpi-val num">${kzCount()}<span class="cur" style="margin-left:6px">Signale</span></div><div class="kpi-foot">passend zu «${PROFILES[S.settings.risk].l}» · ${pos.length} mit positiver Erwartung</div></div>
+    <div class="card kpi hero span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('target')}</span>Kaufzone</div><div class="kpi-val num">${tops.length}<span class="cur" style="margin-left:6px">Signale</span></div><div class="kpi-foot">alle mit positiver Netto-Erwartung bei ${chf(stake,0)}${fixable.length?` · ${fixable.length} erst ab mehr Einsatz`:''}</div></div>
     <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--mint-soft);color:var(--mint)">${ic('coins')}</span>Dein Einsatz</div><div class="kpi-val num"><span class="cur">CHF</span>${grp(stake,0)}</div><div class="kpi-foot">Ziel-Gewinn ${chf(S.settings.goal,0)} · <button class="link-btn" data-goto="settings">ändern</button></div></div>
-    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--warn-soft);color:var(--warn)">${ic('percent')}</span>Rückblick-Test</div><div class="kpi-val num">${bt.n?pct(bt.ziel,0,false):'–'}<span class="cur" style="margin-left:6px">Ziel erreicht</span></div><div class="kpi-foot">${bt.n?`${grp(bt.n,0)} Signale · Stopp ${pct(bt.stopp,0,false)}`:'noch keine Daten'}</div></div>
-    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--input);color:var(--text2)">${ic('activity')}</span>Live-Bilanz</div><div class="kpi-val num">${live.n>=live.min?pct(live.ziel,0,false):`${live.n||0}<span class="cur" style="margin-left:6px">/ ${live.min||20} ausgewertet</span>`}</div><div class="kpi-foot">${live.n>=live.min?`Ziel erreicht bei ${live.n} Signalen`:`${live.open||0} offene Signale werden verfolgt`}</div></div>
+    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--warn-soft);color:var(--warn)">${ic('percent')}</span>Test ab 2022</div><div class="kpi-val num ${g.net>0?'':'negv'}">${g.n?chfS(g.net):'–'}<span class="cur" style="margin-left:6px">pro Trade</span></div><div class="kpi-foot">${g.n?`netto bei CHF ${ns} · ${grp(g.n,0)} Trades · ${pct(g.win,0,false)} im Plus`:'noch keine Daten'}</div></div>
+    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--input);color:var(--text2)">${ic('activity')}</span>Live-Bilanz</div><div class="kpi-val num">${live.n>=live.min?chfS(live.net100):`${live.n||0}<span class="cur" style="margin-left:6px">/ ${live.min||20} ausgewertet</span>`}</div><div class="kpi-foot">${live.n>=live.min?`Ø netto bei CHF 100 · ${live.n} Signale`:`${live.open||0} offene Signale (Auswertung nach 6 Monaten)`}</div></div>
   </div>
   <div class="grid" style="margin-bottom:20px">
-    <div class="card span-7" style="--i:3"><div class="card-head"><div><div class="card-title">Top-Chancen heute</div><div class="card-sub">Sortiert nach erwartetem Netto-Ergebnis in CHF für deinen Einsatz – nach Yuh-Gebühren</div></div><button class="link-btn" data-sig-go="Kaufzone">Alle →</button></div>${topHtml}${posNote}</div>
-    <div class="card span-5" style="--i:4"><div class="card-head"><div><div class="card-title">Signalverteilung</div><div class="card-sub">${D.count} Instrumente · Profil «${PROFILES[S.settings.risk].l}»</div></div></div>
+    <div class="card span-7" style="--i:3"><div class="card-head"><div><div class="card-title">Top-Chancen heute</div><div class="card-sub">Sortiert nach erwartetem Netto-Ergebnis in CHF für deinen Einsatz – nach allen Yuh-Gebühren</div></div><button class="link-btn" data-sig-go="Kaufzone">Alle →</button></div>${topHtml}${blkNote}</div>
+    <div class="card span-5" style="--i:4"><div class="card-head"><div><div class="card-title">Gebühren-Kompass</div><div class="card-sub">Kauf + Verkauf bei ${chf(stake,0)} – so viel muss der Kurs steigen, bis du im Plus bist</div></div><button class="link-btn" data-goto="how">Wie? →</button></div>${compass}
+      <p class="set-note">${ic('info')}<span>Darum bevorzugt Kairos CHF-Titel an der SIX: kein Devisenzuschlag. Unter ${chf(200,0)} macht die Mindestgebühr von CHF 1 je Auftrag den Löwenanteil aus.</span></p></div>
+  </div>
+  <div class="grid" style="margin-bottom:20px">
+    ${planTeaser}
+    <div class="card ${planTeaser?'span-7':'span-12'}" style="--i:6"><div class="card-head"><div><div class="card-title">Signalverteilung</div><div class="card-sub">${D.count} Instrumente · Profil «${PROFILES[S.settings.risk].l}» · Einsatz ${chf(stake,0)}</div></div></div>
       <div class="dist" role="img" aria-label="Verteilung der Signale">${dist.map(s=>s.n?`<span class="s-${s.c}" style="flex:${s.n}"></span>`:'').join('')}</div>
       <div class="dist-leg">${dist.map(s=>`<button data-sig-go="${s.k}"><i class="s-${s.c}"></i><span><b>${s.k}</b><small>${s.d}</small></span><span class="num">${s.n}<small>${Math.round(s.n/tot*100)} %</small></span></button>`).join('')}</div></div>
   </div>
   ${posSummary()}
-  <div class="card" style="--i:6;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Ehrliche Bilanz der Regeln</div><div class="card-sub">Rückblick-Test über rund 12 Monate: jedes Setup mit Ziel/Stopp wie heute berechnet, ohne Fundamentaldaten</div></div></div>${btTable()}</div>
+  <div class="card" style="--i:7;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Ehrliche Bilanz der Regeln</div><div class="card-sub">Rückblick-Test über 10 Jahre, alle Yuh-Titel, Ø Netto-Ergebnis pro Trade nach Gebühren</div></div><button class="link-btn" data-goto="how">Details →</button></div>${btTable()}</div>
   <p class="set-foot">${esc(D.universe.note)}</p>`;
 }
-function btTable(){const B=DATA.backtest||{};const rows=['all','pullback','momentum','rebound','breakout'].filter(k=>B[k]&&B[k].n);
-  if(!rows.length)return '<div class="soft-empty">Noch keine Auswertung vorhanden.</div>';
-  return `<div class="tbl-wrap"><table class="tbl num"><thead><tr><th>Setup</th><th>Signale</th><th>Ziel erreicht</th><th>Stopp</th><th>Zeit abgelaufen</th><th>Ø brutto</th><th>Ø netto bei CHF 100</th><th>Ø Tage</th></tr></thead><tbody>${rows.map(k=>{const b=B[k];return `<tr${k==='all'?' class="tot"':''}><td>${k==='all'?'Alle':SETUP_DE[k]}</td><td>${grp(b.n,0)}</td><td>${pct(b.ziel,0,false)}</td><td>${pct(b.stopp,0,false)}</td><td>${pct(b.ablauf,0,false)}</td><td class="${b.ret>0?'pos':'negv'}">${pct(b.ret,2)}</td><td class="${b.avg100>0?'pos':'negv'}">${chfS(b.avg100)}</td><td>${grp(b.avgdays,0)}</td></tr>`}).join('')}</tbody></table></div>
-  <p class="set-note">${ic('info')}<span>So ehrlich wie möglich: Die Setups bringen im Schnitt nur einen kleinen Brutto-Vorteil. Bei kleinen Einsätzen fressen die Yuh-Gebühren (mind. CHF 1 je Kauf und Verkauf, 0.95 % Devisenzuschlag je Richtung bei USD/EUR-Titeln) diesen Vorteil oft auf. Vergangene Ergebnisse sind keine Garantie. Die Live-Bilanz wird ab ${(DATA.live&&DATA.live.min)||20} ausgewerteten Signalen angezeigt.</span></p>`}
+function btCell(v,n){if(v==null)return '<td>–</td>';return `<td class="${v>0?'pos':'negv'}">${chfS(v)}${n!=null?`<small class="tn">${grp(n,0)}</small>`:''}</td>`}
+function btTable(){const B=DATA.backtest||{},C=DATA.compare,R=DATA.bench||{};
+  if(!B.oos)return '<div class="soft-empty">Noch keine Auswertung vorhanden.</div>';
+  const rows=[];const per=[['is','2017–2021'],['oos','ab 2022']];
+  if(C&&C.old)per.forEach(([k,l])=>{const o=C.old[k];if(o)rows.push({g:'old',n:'Alte Regeln v1 (Swing, Ziel/Stopp)',p:l,t:o.n,r:null,v:[o.net100,o.net250,o.net500]})});
+  per.forEach(([k,l])=>{const o=B[k]&&B[k].all;if(o&&o.n)rows.push({g:'new',n:'Neu: alle Setups, 6 Monate halten',p:l,t:o.n,r:o.ret,v:[o.net100,o.net250,o.net500]})});
+  per.forEach(([k,l])=>{const G=B[k]&&B[k].gate;if(G)rows.push({g:'kz',n:'Neu mit Gebührenfilter = Kaufzone',p:l,t:null,r:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})});
+  if(B.l12&&B.l12.gate){const G=B.l12.gate;rows.push({g:'kz',n:'Kaufzone, letzte 12 Monate',p:'abgeschlossen',t:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})}
+  per.forEach(([k,l])=>{const o=R[k];if(o&&o.n)rows.push({g:'rnd',n:'Vergleich: zufälliger Einstieg, 6 Mt.',p:l,t:o.n,r:o.ret,v:[o.net100,o.net250,o.net500]})});
+  return `<div class="tbl-wrap"><table class="tbl num bt2"><thead><tr><th>Regelwerk</th><th>Zeitraum</th><th>Trades</th><th>Ø brutto</th><th>CHF 100</th><th>CHF 250</th><th>CHF 500</th></tr></thead><tbody>${rows.map(x=>`<tr class="g-${x.g}"><td>${x.n}</td><td>${x.p}</td><td>${x.t!=null?grp(x.t,0):'<small>je Einsatz</small>'}</td><td>${x.r!=null?pct(x.r,1):'–'}</td>${x.v.map((v,i)=>btCell(v,x.ns?x.ns[i]:null)).join('')}</tr>`).join('')}</tbody></table></div>
+  <p class="set-note">${ic('info')}<span>Ehrlich: Die alten Swing-Signale haben nach Gebühren bei jedem Einsatz Geld verloren. Die neuen Regeln halten rund 6 Monate und lassen nur Setups durch, deren Erwartung die Gebühren klar übersteigt. Im Lernzeitraum 2017–2021 war der Filter bei CHF 100 trotzdem negativ – die Ergebnisse schwanken stark von Jahr zu Jahr. Die Einstiege schlagen einen zufälligen Zeitpunkt nicht zuverlässig: Ein grosser Teil des Gewinns kommt vom Halten in steigenden Märkten. Kleine Zahlen unter dem Betrag = Anzahl Trades. Vergangene Ergebnisse sind keine Garantie.</span></p>`}
 function posSummary(){if(!S.pos.length||!DATA)return '';let inv=0,net=0;const rows=S.pos.map(p=>{const o=BY[p.t];if(!o)return '';const v=posVal(p,o);inv+=p.stake;net+=v.net;return instRow(o,{showTrade:false})}).join('');
   return `<div class="card" style="--i:5;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Meine Positionen</div><div class="card-sub">Eingesetzt ${chf(inv,0)} · beim Verkauf heute netto ca. <b class="${net>=0?'pos':'negv'}">${chfS(net)}</b></div></div><button class="link-btn" data-goto="pos">Alle →</button></div>${rows}</div>`}
 
@@ -1132,7 +1240,13 @@ function renderWatch(){const el=$('#watchView');
 
 /* ===== Positionen ===== */
 function posVal(p,o){const fxNow=o.fx||1,fxBuy=p.fx||fxNow;const inv=p.stake-feeSide(p.stake,o);const units=inv/(p.buy*fxBuy);const val=units*o.p*fxNow;const net=val-feeSide(val,o)-p.stake;return{val,net,units,ret:o.p/p.buy-1}}
-function posHint(o,p){const k=o.sig;if(k==='Überhitzt')return{c:'warn',t:'Überhitzt – Teilgewinne mitnehmen oder Stopp nachziehen prüfen.'};if(k==='Meiden')return{c:'danger',t:'Abwärtstrend – Ausstieg oder engen Stopp prüfen.'};if(k==='Kaufzone')return{c:'ok',t:'Aktuell Kaufzone-Setup – Position halten, Aufstocken nur mit Plan.'};if(k==='Halten')return{c:'ok',t:'Trend intakt – halten.'};return{c:'muted',t:'Gemischtes Bild – beobachten.'}}
+function posHint(o,p){const k=sigEff(o);const days=p.date?(Date.now()-new Date(p.date))/864e5:null;
+  if(days!=null&&days>=174&&k!=='Kaufzone')return{c:'muted',t:'Rund 6 Monate gehalten – Plan-Ende erreicht. Neu prüfen: Signal ist aktuell «'+k+'».'};
+  if(k==='Meiden')return{c:'danger',t:'Abwärtstrend – Ausstieg prüfen. Denk an die Verkaufsgebühr, aber lass Verluste nicht laufen.'};
+  if(k==='Überhitzt')return{c:'warn',t:'Stark gelaufen – nicht nachkaufen. Verkaufen nur, wenn du Gewinne sichern willst (Gebühr beachten).'};
+  if(k==='Kaufzone')return{c:'ok',t:'Signal aktiv – halten. Nachkauf nur, wenn sich der Betrag nach Gebühren lohnt.'};
+  if(k==='Halten')return{c:'ok',t:'Trend intakt – halten. Hin- und Herhandeln kostet jedes Mal Gebühren.'};
+  return{c:'muted',t:'Gemischtes Bild – halten und beobachten.'}}
 function renderPos(){const el=$('#posView');
   if(!S.pos.length){el.innerHTML=`<div class="card"><div class="big-empty"><div class="be-ico">${ic('briefcase')}</div><h3>Noch keine Positionen erfasst</h3><p>Trage ein, was du bei Yuh hältst (Einsatz in CHF und Kaufkurs). Kairos zeigt dir dann das aktuelle Signal, den Wert und das Netto-Ergebnis nach Verkaufsgebühren. Alles bleibt lokal auf diesem Gerät.</p><button class="btn btn-primary" data-action="addpos">${ic('plus','width:16px;height:16px')}Position erfassen</button></div></div>`;return}
   let inv=0,net=0;
@@ -1161,17 +1275,18 @@ function delPos(id){const p=S.pos.find(x=>x.id===id);if(!p)return;const k=S.pos.
 
 /* ===== Einstellungen ===== */
 function renderSettings(){const el=$('#settingsView');const st=S.settings;const D=DATA;
-  const feeRows=[['Aktien, ETFs, ETPs','0.50 % bis CHF 10’000, 0.35 % bis CHF 20’000, darüber 0.25 % – mindestens CHF 1 je Kauf und je Verkauf'],['Krypto','1 % beim Kauf und 1 % beim Verkauf'],['Fremdwährung','0.95 % Wechselkurszuschlag je Richtung (USD, EUR, GBP …)'],['Umsatzabgabe (Schätzung)','0.075 % CH-Titel, 0.15 % ausländische Titel je Seite']];
+  const feeRows=[['Aktien, ETFs, ETPs','0.50 % bis CHF 10’000, 0.35 % bis CHF 20’000, darüber 0.25 % – mindestens CHF 1 je Kauf und je Verkauf'],['Krypto','1 % beim Kauf und 1 % beim Verkauf'],['Fremdwährung','0.95 % Wechselkurszuschlag je Richtung (USD, EUR, GBP …)'],['ETF-Sparplan','Wiederkehrende Kaufaufträge auf berechtigte ETFs: CHF 0 Handelsgebühr (ab CHF 10, wöchentlich oder monatlich, mind. 2 Ausführungen in Folge). Verkauf, Umsatzabgabe, Devisen und TER fallen weiter an.'],['Umsatzabgabe (Schätzung)','0.075 % CH-Titel, 0.15 % ausländische Titel je Seite'],['Depotgebühr','keine']];
   el.innerHTML=`<div class="grid">
+  <div class="card span-12 more-links"><button class="ml" data-goto="plan"><span class="kpi-ico" style="background:var(--mint-soft);color:var(--mint)">${ic('coins')}</span><span><b>Sparplan</b><small>Gebührenfrei kaufen – ab CHF 10 pro Monat</small></span>${ic('chev','width:16px;height:16px')}</button><button class="ml" data-goto="how"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('percent')}</span><span><b>So rechnet Kairos</b><small>Gebühren, Regeln, ehrlicher Rückblick-Test</small></span>${ic('chev','width:16px;height:16px')}</button></div>
   <div class="card span-7"><div class="card-head"><div><div class="card-title">Risikoprofil</div><div class="card-sub">Filtert, welche Kaufzone-Signale du siehst</div></div></div>
    <div class="radio-list">${Object.entries(PROFILES).map(([k,p])=>`<label class="radio-row"><input type="radio" name="risk" value="${k}"${st.risk===k?' checked':''}><span><b>${p.l}</b><small>${p.d}</small></span></label>`).join('')}</div></div>
   <div class="card span-5"><div class="card-head"><div><div class="card-title">Einsatz & Ziel</div><div class="card-sub">Für alle Netto-Berechnungen in CHF</div></div></div>
-   <div class="field"><label for="sStake">Standard-Einsatz pro Trade (CHF)</label><input class="input num" id="sStake" inputmode="decimal" value="${st.stake}"><div class="hint">Wird pro Instrument in der Detailansicht überschrieben (${Object.keys(S.stakes).length} eigene Einsätze${Object.keys(S.stakes).length?` · <button class="link-btn" data-action="resetstakes">zurücksetzen</button>`:''}).</div><div class="err"></div></div>
-   <div class="field"><label for="sGoal">Ziel-Gewinn pro Trade (CHF, netto)</label><input class="input num" id="sGoal" inputmode="decimal" value="${st.goal}"><div class="hint">Kairos zeigt pro Signal, welcher Einsatz dafür nötig wäre.</div><div class="err"></div></div>
+   <div class="field"><label for="sStake">Standard-Einsatz pro Trade (CHF)</label><input class="input num" id="sStake" inputmode="decimal" value="${st.stake}"><div class="hint">Kaufzone gibt es nur, wenn sich das Signal bei diesem Einsatz nach Gebühren lohnt. Wird pro Instrument in der Detailansicht überschrieben (${Object.keys(S.stakes).length} eigene Einsätze${Object.keys(S.stakes).length?` · <button class="link-btn" data-action="resetstakes">zurücksetzen</button>`:''}).</div><div class="err"></div></div>
+   <div class="field"><label for="sGoal">Ziel-Gewinn pro Trade (CHF, netto)</label><input class="input num" id="sGoal" inputmode="decimal" value="${st.goal}"><div class="hint">Kairos zeigt pro Signal, welcher Einsatz dafür beim typischen Verlauf nötig wäre – und wie wahrscheinlich das Ziel ist.</div><div class="err"></div></div>
    <button class="btn btn-primary" data-action="savestake">${ic('check','width:16px;height:16px')}Übernehmen</button></div>
-  <div class="card span-12"><div class="card-head"><div><div class="card-title">Yuh-Gebührenmodell</div><div class="card-sub">Quelle: <a href="https://www.yuh.com/en/pricing/" target="_blank" rel="noopener">yuh.com/en/pricing</a>, geprüft am ${D&&D.fees&&D.fees.checked?dmy(D.fees.checked):'24.10.2026'}</div></div></div>
+  <div class="card span-12"><div class="card-head"><div><div class="card-title">Yuh-Gebührenmodell</div><div class="card-sub">Quellen: <a href="https://www.yuh.com/en/pricing/" target="_blank" rel="noopener">yuh.com/en/pricing</a>, <a href="https://www.yuh.com/en/app/invest/etf-savings-plan/" target="_blank" rel="noopener">Sparplan</a>, geprüft am ${D&&D.fees&&D.fees.checked?dmy(D.fees.checked):'24.10.2026'}</div></div></div>
    <div class="kv">${feeRows.map(([a,b])=>`<div><span>${a}</span><b>${b}</b></div>`).join('')}</div>
-   <p class="set-note">${ic('info')}<span>Alle Gewinne und Verluste werden netto nach Kauf- und Verkaufsgebühr gerechnet. Die Umsatzabgabe ist eine Schätzung; Fondskosten (TER) und Spreads sind nicht enthalten. Wiederkehrende ETF-Sparpläne sind bei Yuh gebührenfrei – hier nicht berücksichtigt.</span></p></div>
+   <p class="set-note">${ic('info')}<span>Alle Gewinne und Verluste werden netto nach Kauf- und Verkaufsgebühr gerechnet. Die Umsatzabgabe ist eine Schätzung; Fondskosten (TER) und Spreads sind nicht enthalten. Der Sparplan ist im Bereich «Sparplan» berücksichtigt; Kaufzone-Signale rechnen mit normalen Einzelaufträgen.</span></p></div>
   <div class="card span-12"><div class="card-head"><div><div class="card-title">Daten & Quellen</div><div class="card-sub">${D?`Stand ${fmtStamp(D.generated)} (Europe/Zurich) · Laufzeit ${grp(D.runtime_s,0)} s · ${D.count} Instrumente`:'Keine Daten geladen'}</div></div></div>
    ${D?`<p class="set-note">${ic('alert')}<span>${esc(D.universe.note)}</span></p><div class="kv">${Object.values(D.universe.sources).map(s=>`<div><span>${esc(s.label)}</span><b><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url.replace(/^https?:\/\//,'').slice(0,60))}</a></b></div>`).join('')}<div><span>Kurse & Kennzahlen</span><b>Yahoo Finance (inoffiziell, verzögert, ohne Gewähr)</b></div></div>`:''}
    <p class="set-note">${ic('info')}<span>Die Analyse läuft automatisch im Hintergrund und aktualisiert die Signale mehrmals pro Handelstag. Kurse sind Schlusskurse bzw. verzögerte Kurse.</span></p></div>
@@ -1183,6 +1298,58 @@ function renderSettings(){const el=$('#settingsView');const st=S.settings;const 
 function saveStake(){const a=parseAmt($('#sStake').value),g=parseAmt($('#sGoal').value);if(!(a>=10&&a<=1e6))return invalid($('#sStake'),'Bitte einen Einsatz zwischen CHF 10 und CHF 1’000’000 eingeben.');if(!(g>=1&&g<=1e5))return invalid($('#sGoal'),'Bitte einen Ziel-Gewinn ab CHF 1 eingeben.');S.settings.stake=a;S.settings.goal=g;refresh();toast(`Einsatz ${chf(a,0)} · Ziel-Gewinn ${chf(g,0)}`)}
 function exportData(){const blob=new Blob([JSON.stringify({app:'Kairos',exported:new Date().toISOString(),...S},null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kairos-daten.json';document.body.appendChild(a);a.click();a.remove();toast('Export erstellt')}
 function importData(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);S=sanitize(o);refresh();toast('Daten importiert')}catch(e){toast('Datei konnte nicht gelesen werden',null,'warn')}};r.readAsText(f)}
+
+/* ===== Sparplan ===== */
+const PLAN_CORE=['VWRL.SW','VWRA.SW','IWDC.SW','CSSMI.SW'];
+function renderPlan(){const el=$('#planView');const D=DATA;
+  if(!D){el.innerHTML=`<div class="card"><div class="big-empty"><div class="be-ico">${ic('refresh')}</div><h3>Daten werden geladen …</h3></div></div>`;return}
+  const P=D.plans||{items:[]},pa=S.settings.plan,src=(D.fees&&D.fees.sources)||[];
+  const ref={kind:'Wertschrift',ch:false,fxfee:false};const fN=feeSide(pa,ref),fP=feeSide(pa,ref,true);
+  const items=P.items.slice().sort((a,b)=>(PLAN_CORE.includes(b.t)-PLAN_CORE.includes(a.t))||((a.risk==='hoch')-(b.risk==='hoch'))||((b.r5??b.r3??0)-(a.r5??a.r3??0)));
+  const rk={tief:'Schwankung tief',mittel:'Schwankung mittel',hoch:'Schwankung hoch'};
+  el.innerHTML=`<div class="grid">
+  <div class="card span-7 plan-hero" style="--i:0"><div class="card-head"><div><div class="card-title">Gebührenfrei investieren</div><div class="card-sub">Wiederkehrende ETF-Käufe kosten bei Yuh keine Handelsgebühr</div></div></div>
+    <div class="amt-chips" role="group" aria-label="Betrag pro Monat">${[25,50,100,250,500].map(v=>`<button class="fchip" data-plan-amt="${v}" aria-pressed="${pa===v}">${chf(v,0)}</button>`).join('')}</div>
+    <div class="pc-grid num">
+      <div><small>Einzelkauf ${chf(pa,0)}</small><b class="negv">${chf(fN)}</b><span>Gebühr je Kauf (${pct(fN/pa,2,false)})</span></div>
+      <div class="best"><small>Sparplan ${chf(pa,0)}</small><b class="pos">${chf(fP)}</b><span>nur Umsatzabgabe (${pct(fP/pa,2,false)})</span></div>
+      <div><small>Ersparnis pro Jahr</small><b class="pos">${chf(12*(fN-fP))}</b><span>bei monatlicher Ausführung</span></div>
+    </div>
+    <p class="set-note">${ic('info')}<span>Bei kleinen Beträgen ist der Sparplan fast immer günstiger als einzelne Käufe: ${chf(pa,0)} einmalig in eine USD-Aktie kostet hin und zurück rund ${chf(-netAt(pa,0,{kind:'Wertschrift',ch:false,fxfee:true}))}. Kairos empfiehlt deshalb für regelmässiges Sparen den Sparplan – Einzelsignale nur, wenn sie sich nach Gebühren lohnen.</span></p></div>
+  <div class="card span-5" style="--i:1"><div class="card-head"><div><div class="card-title">So funktioniert der Yuh-Sparplan</div><div class="card-sub">Geprüft am ${dmy((D.fees&&D.fees.checked)||'2026-10-24')}</div></div></div>
+    <ul class="facts"><li>${ic('check')}<span><b>CHF 0 Handelsgebühr</b> auf wiederkehrende Kaufaufträge für berechtigte ETFs</span></li><li>${ic('check')}<span>Ab <b>CHF ${grp((D.fees&&D.fees.plan_min)||10,0)}</b>, wöchentlich oder monatlich</span></li><li>${ic('alert')}<span>Mindestens <b>2 Ausführungen in Folge</b> – sonst gelten die normalen Gebühren</span></li><li>${ic('alert')}<span>Verkauf, Umsatzabgabe, Devisenzuschlag und Fondskosten (TER) fallen weiter an</span></li></ul>
+    <p class="set-note">${ic('shield')}<span>Quellen: ${src.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,''))}</a>`).join(' · ')}. Berechtigte ETFs laut Yuh-Sparplan-Seite und AGB – in der Yuh-App prüfen.</span></p></div>
+  <div class="card span-12" style="--i:2"><div class="card-head"><div><div class="card-title">Sparplan-ETFs bei Yuh</div><div class="card-sub">Rückblick: CHF ${grp(P.monthly,0)} pro Monat über bis zu ${P.years} Jahre, Wert heute nach Verkaufsgebühr – Renditen in CHF</div></div></div>
+    <div class="plan-list">${items.map(x=>{const o=BY[x.t];const gain=x.vp-x.inv;return `<button class="plan-it" data-open="${esc(x.t)}">
+      <div class="pi-top">${o?mono(o):''}<div class="opp-m"><div class="ir-n">${esc(x.n)}${PLAN_CORE.includes(x.t)?'<span class="pill-chf">Kern</span>':''}</div><div class="ir-s">${esc(x.t)} · ${rk[x.risk]}${x.up!=null?` · ${x.up?'über':'unter'} 200-Tage-Linie`:''}</div></div>${o?badge(o):''}</div>
+      <div class="pi-grid num"><div><small>1 J.</small><b class="${(x.r1||0)>=0?'pos':'negv'}">${pct(x.r1,1)}</b></div><div><small>3 J.</small><b class="${(x.r3||0)>=0?'pos':'negv'}">${pct(x.r3,0)}</b></div><div><small>5 J.</small><b class="${(x.r5||0)>=0?'pos':'negv'}">${x.r5==null?'–':pct(x.r5,0)}</b></div><div><small>Max. Rückgang</small><b class="negv">${pct(x.mdd,0)}</b></div></div>
+      <div class="pi-sim num">${chf(x.inv,0)} eingezahlt (${x.m} Mt.) → <b class="${gain>=0?'pos':'negv'}">${chf(x.vp,0)}</b> netto · Gebühren ${chf(x.fp,0)} statt ${chf(x.fn,0)}</div></button>`}).join('')}</div>
+    <p class="set-note">${ic('info')}<span>«Kern» = breit gestreute Welt- bzw. Schweiz-ETFs. Krypto- und Edelmetall-ETPs schwanken stark. Rückblick-Werte zeigen, was gewesen wäre – keine Garantie für die Zukunft. Keine Anlageberatung.</span></p></div>
+  </div>`}
+
+/* ===== So rechnet Kairos ===== */
+function renderHow(){const el=$('#howView');const D=DATA;
+  if(!D){el.innerHTML=`<div class="card"><div class="big-empty"><div class="be-ico">${ic('refresh')}</div><h3>Daten werden geladen …</h3></div></div>`;return}
+  const R=RULES(),C=D.classes||{},stake=S.settings.stake,F=D.fees||FEES;
+  const stakes=[50,100,250,500,1000];
+  const feeTbl=`<div class="tbl-wrap"><table class="tbl num"><thead><tr><th>Kauf + Verkauf</th>${stakes.map(s=>`<th>CHF ${grp(s,0)}</th>`).join('')}</tr></thead><tbody>${FEE_PROFILES.map(p=>`<tr><td>${p.l}</td>${stakes.map(s=>{const c=-netAt(s,0,p.o);return `<td>${chf(c)}<small class="tn">${pct(c/s,2,false)}</small></td>`}).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const ex={kind:'Wertschrift',ch:false,fxfee:true},b=feeParts(stake,ex),inv=stake-b.total,s0=feeParts(inv,ex);
+  const cls=Object.entries(C).filter(([k,v])=>v).map(([k,v])=>`<div class="cls"><b>${esc(SETUP_DE[k]||k)}</b><div class="cls-g num"><div><small>Fälle</small><b>${grp(v.n,0)}</b></div><div><small>Ø Kurs nach 6 Mt.</small><b class="${v.mean>0?'pos':'negv'}">${pct(v.mean,1)}</b></div><div><small>Typisch</small><b>${pct(v.med,1)}</b></div><div><small>Im Plus</small><b>${pct(v.pos,0,false)}</b></div><div><small>Schlechter Fall</small><b class="negv">${pct(v.p10,0)}</b></div></div></div>`).join('');
+  const fnd=(D.compare&&D.compare.findings)||[];
+  el.innerHTML=`<div class="grid how">
+  <div class="card span-12" style="--i:0"><div class="card-head"><div><div class="card-title">1 · Was ein Trade bei Yuh kostet</div><div class="card-sub">Gebühren beim Kauf und beim Verkauf, ohne Kursveränderung – darunter in % vom Einsatz</div></div></div>${feeTbl}
+    <div class="calc num"><b>Rechenbeispiel: ${chf(stake,0)} in eine USD-Aktie</b>
+      <div><span>Courtage Kauf (0.5 %, mind. CHF 1)</span><b>${chf(b.comm)}</b></div><div><span>Devisenzuschlag 0.95 %</span><b>${chf(b.fx)}</b></div><div><span>Umsatzabgabe (Schätzung)</span><b>${chf(b.stamp)}</b></div><div><span>Investiert</span><b>${chf(inv)}</b></div><div><span>Beim Verkauf nochmals</span><b>${chf(s0.total)}</b></div><div class="tot"><span>Der Kurs muss steigen um</span><b>+${grp(breakEven(stake,ex)*100,2)} %</b></div></div>
+    <p class="set-note">${ic('shield')}<span>Quellen: ${((F.sources)||['https://www.yuh.com/en/pricing/']).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,''))}</a>`).join(' · ')} (geprüft ${dmy(F.checked||'2026-10-24')}). Umsatzabgabe geschätzt, Spreads und TER nicht enthalten.</span></p></div>
+  <div class="card span-6" style="--i:1"><div class="card-head"><div><div class="card-title">2 · Die Regeln</div><div class="card-sub">Wenige Trades, lange halten – weil jeder Trade Gebühren kostet</div></div></div>
+    <ol class="rules"><li><b>Nur intakte Aufwärtstrends:</b> Kurs über der 200-Tage-Linie, 50-Tage-Linie darüber, 200-Tage-Linie steigend, 12 Monate im Plus.</li><li><b>Zwei Setups:</b> Momentum (Top ${grp(R.mom_top*100||10,0)} % aller Titel nach 12-Monats-Rendite ohne letzten Monat) oder Rücksetzer an die 50-Tage-Linie (RSI ≤ 48).</li><li><b>Rund 6 Monate halten</b> (${R.hold} Handelstage), dann neu prüfen. Kein enger Stopp: Im Test kosteten Stopps mehr Gebühren, als sie Verluste sparten.</li><li><b>Gebührenfilter:</b> Kaufzone nur, wenn bei deinem Einsatz nach allen Gebühren im Schnitt mindestens ${chf(R.min_ev)} übrig bleiben und die Gebühren höchstens ${grp(R.max_fee_share*100,0)} % des erwarteten Gewinns fressen.</li><li><b>Keine Krypto-Kaufzone:</b> Krypto war über 6 Monate im Test im Schnitt negativ.</li></ol></div>
+  <div class="card span-6" style="--i:2"><div class="card-head"><div><div class="card-title">3 · Woher die Erwartung kommt</div><div class="card-sub">Verteilung aller früheren Signale derselben Art, Kurs in CHF</div></div></div>${cls}
+    <p class="set-note">${ic('info')}<span>Für jedes Signal rechnet Kairos alle früheren Ausgänge (50 Stützstellen der Verteilung) einzeln mit deinem Einsatz und den Yuh-Gebühren dieses Titels durch – Mindestgebühr, Devisenzuschlag und Umsatzabgabe inklusive. Der Durchschnitt ist die «Erwartung», der Median «typisch», das schlechteste Zehntel der «schlechte Fall».</span></p></div>
+  <div class="card span-12" style="--i:3"><div class="card-head"><div><div class="card-title">4 · Ehrlicher Rückblick-Test</div><div class="card-sub">Walk-forward: Für jeden Trade nur Daten, die damals schon bekannt waren. Lernzeitraum 2017–2021, Test ab 2022.</div></div></div>${btTable()}
+    ${fnd.length?`<ul class="facts">${fnd.map(f=>`<li>${ic('info')}<span>${esc(f)}</span></li>`).join('')}</ul>`:''}</div>
+  <div class="card span-12" style="--i:4"><div class="card-head"><div><div class="card-title">5 · Was das für dich heisst</div></div></div>
+    <ul class="facts"><li>${ic('check')}<span><b>Regelmässig kleine Beträge?</b> <button class="link-btn" data-goto="plan">Sparplan</button> – gebührenfreier Kauf schlägt jeden Einzeltrade.</span></li><li>${ic('check')}<span><b>Einzeltitel:</b> Lieber selten und mit genug Einsatz. Bei CHF 50 frisst allein die Mindestgebühr 4 % hin und zurück.</span></li><li>${ic('check')}<span><b>CHF-Titel bevorzugen:</b> Ohne Devisenzuschlag kostet derselbe Trade etwa halb so viel.</span></li><li>${ic('alert')}<span>Verzerrungen: Getestet wurden nur Titel, die heute bei Yuh handelbar sind, und 2017–2026 war überwiegend ein Aufwärtsmarkt. Keine Anlageberatung.</span></li></ul></div>
+  </div>`}
 
 /* ===== Modal-Grundlagen ===== */
 let lastFocus=null;
@@ -1201,36 +1368,42 @@ function indRows(o){const i=o.i,c=o.ccy;const R=[];
   if(i.ma50!=null)R.push(['50-Tage-Linie',`${pct(o.p/i.ma50-1)} Abstand`,'Mittelfristiger Trend. Rücksetzer an diese Linie sind in Aufwärtstrends oft Einstiegschancen.',o.p>i.ma50]);
   if(i.ma200!=null)R.push(['Golden / Death Cross',i.gc?'50 über 200':'50 unter 200',(i.cross==='golden'?'Frisches Golden Cross in den letzten 20 Tagen – ':i.cross==='death'?'Frisches Death Cross in den letzten 20 Tagen – ':'')+(i.gc?'die 50-Tage-Linie liegt über der 200-Tage-Linie (positiv).':'die 50-Tage-Linie liegt unter der 200-Tage-Linie (negativ).'),i.gc]);
   R.push(['RSI (14 Tage)',grp(i.rsi,0),i.rsi>=70?'Überkauft – nach starken Anstiegen kommt oft eine Verschnaufpause.':i.rsi<=30?'Überverkauft – häufig folgt eine Gegenbewegung, aber nicht garantiert.':'Neutral – weder überkauft (über 70) noch überverkauft (unter 30).',i.rsi>30&&i.rsi<70]);
+  if(i.mr)R.push(['Momentum-Rang',`${i.mr} von ${i.mn}`,'Rang nach 12-Monats-Rendite ohne letzten Monat, nur Titel über der 200-Tage-Linie. Top 10 % = Momentum-Setup.',i.mr<=Math.max(1,Math.floor(i.mn*.1))]);
   R.push(['Rendite 3 / 6 / 12 Monate',`${pct(i.r3)} / ${pct(i.r6)} / ${pct(i.r12)}`,'Momentum: Titel, die gut gelaufen sind, laufen oft weiter – bis der Trend bricht.',(i.r6||0)>0]);
   if(i.dd!=null)R.push(['Abstand zum 52-Wochen-Hoch',pct(i.dd),i.dd>-0.05?'Nahe am Jahreshoch.':i.dd<-0.3?'Weit unter dem Jahreshoch – erhöhtes Risiko oder Erholungspotenzial.':'Moderater Rücksetzer vom Jahreshoch.',i.dd>-0.2]);
   if(i.vol!=null)R.push(['Schwankung (Volatilität)',pct(i.vol,0,false)+' p. a.',i.vol<.25?'Ruhig.':i.vol<.45?'Mittlere Schwankung.':'Stark schwankend – kleine Einsätze, enge Planung.',i.vol<.45]);
-  R.push(['Tagesspanne (ATR 14)',`${money(i.atr,c)} · ${pct(i.atrp,1,false)}`,'Typische Bewegung pro Tag. Ziel und Stopp werden in Vielfachen davon gesetzt.',null]);
+  R.push(['Tagesspanne (ATR 14)',`${money(i.atr,c)} · ${pct(i.atrp,1,false)}`,'Typische Bewegung pro Tag in der Handelswährung.',null]);
   if(i.vr!=null)R.push(['Volumen',`${grp(i.vr,1)}× Ø 20 Tage`,i.vr>=1.5?'Deutlich erhöhtes Volumen – bestätigt Bewegungen.':'Normales Handelsvolumen.',null]);
   if(i.pe!=null||i.fpe!=null)R.push(['Bewertung (KGV / Forward-KGV)',`${i.pe!=null?grp(i.pe,1):'–'} / ${i.fpe!=null?grp(i.fpe,1):'–'}`,i.fpe!=null?(i.fpe<15?'Günstig bewertet im Verhältnis zum erwarteten Gewinn.':i.fpe>35?'Hohe Bewertung – viel Wachstum eingepreist.':'Moderate Bewertung.'):'Kurs im Verhältnis zum Gewinn.',i.fpe!=null?i.fpe<35:null]);
   if(i.dy!=null&&i.dy>0)R.push(['Dividendenrendite',grp(i.dy,2)+' %','Jährliche Ausschüttung im Verhältnis zum Kurs (vor Quellensteuer).',null]);
   if(i.tgt!=null)R.push(['Analysten-Kursziel',`${money(i.tgt,c)} (${pct(i.tgt/o.p-1)})`,`Durchschnitt von ${i.na} Analysten${i.rk?`, Tendenz «${({strong_buy:'stark kaufen',buy:'kaufen',hold:'halten',underperform:'untergewichten',sell:'verkaufen',none:'–'})[i.rk]||i.rk}»`:''}. Analysten irren oft.`,i.tgt>o.p]);
   return R}
+function noSetupBox(o,stake){const c=tradeAt(stake,0,o),be=breakEven(stake,o),pi=o.plan;
+  return `<div class="tbox none"><div class="tb-h">${ic('info')}<b>Gebühren-Check – kein Kaufsignal</b></div>
+   <div class="fees num"><div><span>Kauf + Verkauf bei ${chf(stake,0)}</span><b>${chf(-c.net)}</b></div><div><span>Break-even</span><b>Kurs +${grp(be*100,2)} %</b></div>${o.fxfee?`<div><span>davon Devisenzuschlag</span><b>${chf(c.fb.fx+c.fs.fx)}</b></div>`:''}</div>
+   ${pi?`<div class="note-bar ok">${ic('coins')}<span>Im <button class="link-btn" data-goto="plan">Sparplan</button> kaufst du diesen ETF ohne Handelsgebühr – für regelmässige kleine Beträge der günstigste Weg.</span></div>`:''}</div>`}
 function tradeBox(o){const stake=stakeOf(o);
-  if(!o.pl){const rt=feeSide(stake,o)+feeSide(stake,o);return `<div class="tbox none"><div class="tb-h">${ic('info')}<b>Kein Kaufsignal – kein Handelsplan</b></div><p>Ein Kauf und späterer Verkauf mit ${chf(stake,0)} kostet bei Yuh rund <b>${chf(rt)}</b> (${pct(rt/stake,1,false)}) an Gebühren${o.fxfee?', inklusive Devisenzuschlag':''}.</p></div>`}
-  const p=o.pl,t=trade(stake,p.up,p.dn,o),e=ev(o,stake),ms=minStake(o),sf=stakeFor(o,S.settings.goal),share=t.gross>0?t.fees/t.gross:1,ok=fits(o);
-  return `<div class="tbox"><div class="tb-h">${ic('target')}<b>${esc(SETUP_DE[p.setup])}</b><span class="cfd">Konfidenz ${o.cf}</span></div>
+  if(!o.pl||!clsOf(o))return noSetupBox(o,stake);
+  const p=o.pl,c=feeCheck(o,stake),ok=fits(o),pass=passes(stake,o),gs=gateStake(o),ms=minStake(o),goal=S.settings.goal,sf=stakeFor(o,goal),pg=probNet(stake,o,goal),st=c.st,R=RULES();
+  const verdict=pass?`<span class="vd ok">${ic('check','width:14px;height:14px')}Lohnt sich bei ${chf(stake,0)}</span>`:gs?`<span class="vd warn">${ic('alert','width:14px;height:14px')}Lohnt sich erst ab ${chf(gs,0)}</span>`:`<span class="vd bad">${ic('ban','width:14px;height:14px')}Lohnt sich bei Yuh nicht</span>`;
+  const g=Math.max(c.gross||0,0.0001),fw=clamp((c.gross-c.e)/g*100,0,100);
+  return `<div class="tbox${pass?'':' blocked'}"><div class="tb-h">${ic('target')}<b>${esc(SETUP_DE[p.setup])}</b>${verdict}</div>
    ${ok?'':`<div class="note-bar warn">${ic('alert')}<span>Passt nicht zu deinem Risikoprofil «${PROFILES[S.settings.risk].l}» – nur zur Information.</span></div>`}
    <div class="tb-stake"><label for="dStake">Einsatz</label><div class="amount-input"><span>CHF</span><input class="input num" id="dStake" inputmode="decimal" value="${stake}"></div>${S.stakes[o.t]?`<button class="link-btn" data-action="stakereset">Standard (${chf(S.settings.stake,0)})</button>`:''}</div>
-   <div class="tb-main num">Einsatz ${chf(stake,0)} → <b class="${t.gain>0?'pos':'negv'}">Ziel ${chfS(t.gain)}</b> netto nach Gebühren, <b class="negv">Risiko ${chf(t.loss)}</b></div>
+   <div class="tb-main num">Einsatz ${chf(stake,0)} → <b class="${c.e>0?'pos':'negv'}">erwartet ${chfS(c.e)}</b> netto nach rund 6 Monaten</div>
+   <div class="feebar" role="img" aria-label="Erwarteter Bruttogewinn ${chf(c.gross)}, davon Gebühren ${grp(fw,0)} Prozent"><div class="fb-track"><i class="fb-net" style="width:${(100-fw).toFixed(1)}%"></i><i class="fb-fee" style="width:${fw.toFixed(1)}%"></i></div><div class="fb-leg num"><span><i class="d-net"></i>Netto ${chfS(c.e)}</span><span><i class="d-fee"></i>Gebühren ${grp(Math.min(c.share,9.99)*100,0)} % des Bruttogewinns</span><span>Brutto ${chfS(c.gross)}</span></div></div>
    <div class="tb-grid num">
-    <div><small>Einstiegszone</small><b>${money(p.lo,o.ccy)} – ${money(p.hi,o.ccy)}</b></div>
-    <div><small>Ziel (${esc(p.ts)})</small><b class="pos">${money(p.tg,o.ccy)} · ${pct(p.up)}</b></div>
-    <div><small>Stopp (ATR)</small><b class="negv">${money(p.sl,o.ccy)} · ${pct(-p.dn)}</b></div>
-    <div><small>Chance / Risiko</small><b>${grp(p.rr,1)} : 1</b></div>
-    <div><small>Haltedauer (Schätzung)</small><b>${p.hd[0]}–${p.hd[1]} Handelstage</b></div>
-    <div><small>Erwartungswert*</small><b class="${e>0?'pos':'negv'}">${e==null?'–':chfS(e)}</b></div>
+    <div><small>Typisch (Median)</small><b class="${c.med>0?'pos':'negv'}">${chfS(c.med)}</b></div>
+    <div><small>Schlechter Fall (1 von 10)</small><b class="negv">${chfS(c.bad)}</b></div>
+    <div><small>Guter Fall (1 von 10)</small><b class="pos">${chfS(c.good)}</b></div>
+    <div><small>Chance auf Plus netto</small><b>${pct(c.pPos,0,false)}</b></div>
+    <div><small>Break-even</small><b>Kurs +${grp(c.be*100,2)} %</b></div>
+    <div><small>Halten bis ca.</small><b>${dmy(p.hz)}</b></div>
    </div>
-   <div class="fees num"><div><span>Kaufgebühr</span><b>${chf(t.fb.total)}</b></div><div><span>Verkaufsgebühr am Ziel</span><b>${chf(t.ft.total)}</b></div><div><span>davon Devisenzuschlag</span><b>${chf(t.fb.fx+t.ft.fx)}</b></div><div><span>Brutto am Ziel</span><b>${chfS(t.gross)}</b></div></div>
-   ${(()=>{const fl=floorShare(o);if(share<=.25)return `<div class="note-bar ok">${ic('check')}<span>Gebührenanteil ${grp(share*100,0)} % des Bruttogewinns${ms?` · sinnvoll ab ${chf(ms,0)} Einsatz`:''}.</span></div>`;
-     if(fl>.2)return `<div class="note-bar warn">${ic('alert')}<span>Gebühren fressen ${share>=1?'mehr als den ganzen':grp(share*100,0)+' % des'} Bruttogewinns. Weil Yuh prozentual abrechnet${o.fxfee?' und Devisen umgerechnet werden':''}, bleibt der Anteil auch mit mehr Einsatz bei rund ${grp(fl*100,0)} %${ms?` – unter <b>${chf(ms,0)}</b> kommt zusätzlich die Mindestgebühr von CHF 1 dazu`:''}. Die erwartete Bewegung ist für einen kleinen Trade knapp.</span></div>`;
-     return `<div class="note-bar warn">${ic('alert')}<span>Gebühren fressen ${share>=1?'mehr als den ganzen':grp(share*100,0)+' % des'} Bruttogewinns (Mindestgebühr CHF 1 pro Auftrag). Sinnvoll ab etwa <b>${chf(ms,0)}</b> Einsatz (Gebühren ≤ 20 % des Gewinns).</span></div>`})()}
-   <div class="goalrow">${ic('coins')}<span>Für <b>Ziel-Gewinn ${chf(S.settings.goal,0)}</b> netto bräuchtest du ${sf?`einen Einsatz von etwa <b class="num">${chf(sf,0)}</b> – Risiko dann ${chf(trade(sf,p.up,p.dn,o).loss)}`:'– bei dieser Bewegung nicht erreichbar'}.</span></div>
-   <p class="fine">* Erwartungswert aus den Häufigkeiten von Ziel, Stopp und Zeitablauf dieses Setups im Rückblick-Test (${(pSetup(o)||{}).n||0} Fälle), nach Gebühren. Ein Modellwert, keine Prognose.</p></div>`}
+   <div class="fees num"><div><span>Kaufgebühr</span><b>${chf(c.buy.total)}</b></div><div><span>Verkaufsgebühr (typisch)</span><b>${chf(c.sell.total)}</b></div>${o.fxfee?`<div><span>davon Devisenzuschlag</span><b>${chf(c.fx)}</b></div>`:''}<div><span>Gebühren total</span><b>${chf(c.fees)}</b></div><div><span>Einstieg</span><b>${money(p.e,o.ccy)}</b></div></div>
+   ${!pass?`<div class="note-bar warn">${ic('alert')}<span>${c.e<R.min_ev?`Bei ${chf(stake,0)} bleibt nach Gebühren im Schnitt ${c.e>0?'nur ':''}${chfS(c.e)} übrig.`:`Gebühren fressen ${grp(Math.min(c.share,9.99)*100,0)} % des erwarteten Gewinns (Grenze ${grp(R.max_fee_share*100,0)} %).`} ${gs?`Ab etwa <b>${chf(gs,0)}</b> Einsatz wäre es eine Kaufzone.`:'Wegen des Devisenzuschlags lohnt sich das bei keinem Einsatz.'}${o.fxfee?' CHF-Titel an der SIX haben keinen Devisenzuschlag.':''}</span></div>`:c.share<=R.good_fee_share?`<div class="note-bar ok">${ic('check')}<span>Gebühren nur ${grp(c.share*100,0)} % des erwarteten Gewinns${o.ccy==='CHF'&&!o.fxfee?' – CHF-Titel, kein Devisenzuschlag':''}.</span></div>`:`<div class="note-bar ok">${ic('check')}<span>Lohnt sich, aber Gebühren nehmen ${grp(c.share*100,0)} % des erwarteten Gewinns${ms&&ms>stake?` – effizienter ab etwa ${chf(ms,0)} Einsatz`:''}${o.fxfee?'. Der Devisenzuschlag (0.95 % je Richtung) bleibt bei jedem Einsatz':''}.</span></div>`}
+   <div class="goalrow">${ic('coins')}<span>Ziel <b>${chf(goal,0)} netto</b>: Mit ${chf(stake,0)} lag das in <b>${pct(pg,0,false)}</b> der früheren Fälle drin. ${sf?`Beim typischen Verlauf bräuchtest du etwa <b class="num">${chf(sf,0)}</b> Einsatz – im schlechten Fall (1 von 10) wären das ${chfS(netAt(sf,st.p10,o))}.`:'Beim typischen Verlauf mit vernünftigem Einsatz nicht erreichbar.'}</span></div>
+   <p class="fine">Erwartung aus ${grp(st.n,0)} früheren Signalen derselben Art (alle Yuh-Titel, 10 Jahre), jeder Ausgang einzeln nach Yuh-Gebühren gerechnet. Regel: kaufen, rund 6 Monate (${p.hd} Handelstage) halten, dann neu prüfen – ohne engen Stopp, weil Stopps im Test mehr Gebühren als Nutzen brachten. Ein Modellwert, keine Prognose. <button class="link-btn" data-goto="how">So rechnet Kairos</button></p></div>`}
 function openDetail(t){const o=BY[t];if(!o)return;detailT=t;const w=S.watch.includes(t);
   const srcs={O:'offizielle Yuh-Produktliste (03.08.2023)',L:'liebefinanzen.ch-Liste (Stand 12.08.2026)',Y:'yuh.com Sparplan-Seite'};
   openModal(`${mHead(`${esc(o.n)}`,`${esc(o.t)} · ${esc(o.ex)} · ${esc(o.ccy)} · ${esc(o.ty)}`,`<button type="button" class="icon-btn${w?' on':''}" data-star="${esc(t)}" aria-pressed="${w}" aria-label="${w?'Von Watchlist entfernen':'Zur Watchlist'}">${ic(w?'starFill':'star')}</button>`)}
@@ -1247,13 +1420,12 @@ function openDetail(t){const o=BY[t];if(!o)return;detailT=t;const w=S.watch.incl
 function rerenderDetail(){const sc=$('#modal').scrollTop;openDetail(detailT);$('#modal').scrollTop=sc}
 function drawHist(o,h){const el=$('#dHist');if(!el)return;if(!h){el.innerHTML='<div class="soft-empty">Keine Historie verfügbar.</div>';return}
   const sig=(h.sig||[]).slice(-30);const bt=(h.bt||[]).slice().reverse();
-  const res={Ziel:'pos',Stopp:'negv',Ablauf:''};
-  el.innerHTML=`<div class="sh-row">${sig.map(([d,k,s])=>`<span class="shd s-${sigCls(k)}" title="${dmy(d)}: ${k} (Score ${s})"></span>`).join('')}</div><div class="sh-leg">${sig.length?`${sig.length} Tag${sig.length>1?'e':''} aufgezeichnet seit ${dmy(sig[0][0])} · aktuell ${sigBadgeK(o.sig)}`:''}</div>
-  ${bt.length?`<div class="tbl-wrap"><table class="tbl num"><thead><tr><th>Signal (Rückblick)</th><th>Setup</th><th>Ergebnis</th><th>Kurs</th><th>Tage</th><th>Netto bei CHF 100</th></tr></thead><tbody>${bt.map(b=>`<tr><td>${dmy(b.d)}</td><td>${esc(SETUP_DE[b.s]||b.s)}</td><td class="${res[b.res]||''}">${b.res}</td><td>${pct(b.ret)}</td><td>${b.days}</td><td class="${b.net100>0?'pos':'negv'}">${chfS(b.net100)}</td></tr>`).join('')}</tbody></table></div><p class="fine">Frühere Kaufzone-Signale dieses Titels nach den heutigen Regeln (Rückblick-Test). Vergangene Ergebnisse sind keine Garantie.</p>`:'<p class="fine">Im Rückblick-Test gab es für diesen Titel keine Kaufzone-Signale.</p>'}`}
+  el.innerHTML=`<div class="sh-row">${sig.map(([d,k,s])=>`<span class="shd s-${sigCls(k)}" title="${dmy(d)}: ${k} (Score ${s})"></span>`).join('')}</div><div class="sh-leg">${sig.length?`${sig.length} Tag${sig.length>1?'e':''} aufgezeichnet seit ${dmy(sig[0][0])} · aktuell ${sigBadgeK(sigEff(o))}`:''}</div>
+  ${bt.length?`<div class="tbl-wrap"><table class="tbl num"><thead><tr><th>Signal (Rückblick)</th><th>Setup</th><th>Verkauf</th><th>Kurs in CHF</th><th>Netto bei CHF 100</th></tr></thead><tbody>${bt.map(b=>`<tr><td>${dmy(b.d)}</td><td>${esc(SETUP_DE[b.s]||b.s)}</td><td>${dmy(b.dx)}</td><td class="${b.ret>0?'pos':'negv'}">${pct(b.ret)}</td><td class="${b.net100>0?'pos':'negv'}">${chfS(b.net100)}</td></tr>`).join('')}</tbody></table></div><p class="fine">Frühere Setups dieses Titels nach den heutigen Regeln (kaufen, 6 Monate halten), vor dem Gebührenfilter. Vergangene Ergebnisse sind keine Garantie.</p>`:'<p class="fine">Im Rückblick-Test gab es für diesen Titel keine Setups nach den heutigen Regeln.</p>'}`}
 function drawChart(o,h){const el=$('#dChart');if(!el)return;if(!h||!h.d||h.d.length<2){el.innerHTML='<div class="chart-load">Kein Verlauf verfügbar.</div>';return}
   const n={'1M':22,'6M':130,'1Y':400}[chartRange];const k=o.ty==='Krypto'?{'1M':31,'6M':183,'1Y':366}[chartRange]:n;
   const D=h.d.slice(-k),V=h.chf.slice(-k),N=h.c.slice(-k);const W=640,H=220,P=6;
-  const lines=[];if(o.pl){lines.push({v:o.pl.tg*o.fx,c:'tg',l:'Ziel'},{v:o.pl.sl*o.fx,c:'sl',l:'Stopp'})}
+  const lines=[];if(o.pl&&o.pl.e){lines.push({v:o.pl.e*o.fx,c:'tg',l:'Einstieg'})}
   const all=V.concat(lines.map(x=>x.v)).filter(v=>v!=null);const mn=Math.min(...all),mx=Math.max(...all),rg=(mx-mn)||1;
   const X=i=>P+i/(D.length-1)*(W-2*P),Y=v=>P+8+(1-(v-mn)/rg)*(H-2*P-24);
   const pts=V.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`);const up=V[V.length-1]>=V[0];
@@ -1283,8 +1455,9 @@ function installHint(){
 
 /* ===== Ereignisse ===== */
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-goto],[data-action],[data-close],[data-open],[data-sig],[data-sig-go],[data-range],[data-theme-set],[data-star],[data-delpos],[data-editpos]');if(!t)return;
+  const t=e.target.closest('[data-plan-amt],[data-goto],[data-action],[data-close],[data-open],[data-sig],[data-sig-go],[data-range],[data-theme-set],[data-star],[data-delpos],[data-editpos]');if(!t)return;
   if(t.hasAttribute('data-close'))return closeModal();
+  if(t.dataset.planAmt){S.settings.plan=+t.dataset.planAmt;return refresh()}
   if(t.dataset.goto){closeModal();return go(t.dataset.goto)}
   if(t.dataset.open)return openDetail(t.dataset.open);
   if(t.dataset.sig){F.sig=t.dataset.sig;listLimit=60;return renderList()}
@@ -1330,7 +1503,7 @@ if(/^https?:$/.test(location.protocol)&&'serviceWorker' in navigator){
     const check=()=>reg.update().catch(()=>{});
     document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check()});setInterval(check,30*60*1000);
   }).catch(err=>console.info('Service Worker nicht registriert',err))})}
-window.Kairos={version:APP_VERSION,engine:{feeSide,feeParts,trade,ev,minStake,stakeFor,sanitize,fits,sigEff},get data(){return DATA},get state(){return S}};
+window.Kairos={version:APP_VERSION,engine:{feeSide,feeParts,netAt,tradeAt,breakEven,expectAt,ev,feeShareAt,passes,gateStake,minStake,stakeFor,probNet,feeCheck,sanitize,fits,sigEff},get data(){return DATA},get state(){return S}};
 
 buildNav();setHeader();renderView('dashboard');installHint();
 LOAD_WARN.forEach(w=>setTimeout(()=>toast(w,null,'warn'),600));
