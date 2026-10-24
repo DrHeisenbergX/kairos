@@ -50,5 +50,61 @@
    "Kaufzone": 21
   },
   "s": 10.9
+ },
+ {
+  "t": "2026-10-24T12:04:08+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 175,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 27,
+   "Kaufzone": 23
+  },
+  "s": 16.1,
+  "kz_pos": 23
+ },
+ {
+  "t": "2026-10-24T12:10:43+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 175,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 27,
+   "Kaufzone": 23
+  },
+  "s": 15.0,
+  "kz_pos": 23
+ },
+ {
+  "t": "2026-10-24T12:14:16+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 175,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 27,
+   "Kaufzone": 23
+  },
+  "s": 15.1,
+  "kz_pos": 23
+ },
+ {
+  "t": "2026-10-24T12:16:13+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 175,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 27,
+   "Kaufzone": 23
+  },
+  "s": 14.4,
+  "kz_pos": 23
  }
 ]
