@@ -37,5 +37,18 @@
    "Kaufzone": 20
   },
   "s": 92.4
+ },
+ {
+  "t": "2026-10-24T11:44:50+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 177,
+   "Beobachten": 66,
+   "Meiden": 104,
+   "Überhitzt": 29,
+   "Kaufzone": 21
+  },
+  "s": 10.9
  }
 ]
