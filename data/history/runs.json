@@ -1,0 +1,41 @@
+[
+ {
+  "t": "2026-10-24T11:31:56+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 178,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 30,
+   "Kaufzone": 17
+  },
+  "s": 10.7
+ },
+ {
+  "t": "2026-10-24T11:33:50+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 177,
+   "Beobachten": 68,
+   "Meiden": 104,
+   "Überhitzt": 30,
+   "Kaufzone": 18
+  },
+  "s": 10.7
+ },
+ {
+  "t": "2026-10-24T11:34:08+02:00",
+  "n": 397,
+  "failed": 0,
+  "dist": {
+   "Halten": 177,
+   "Beobachten": 66,
+   "Meiden": 104,
+   "Überhitzt": 30,
+   "Kaufzone": 20
+  },
+  "s": 92.4
+ }
+]
