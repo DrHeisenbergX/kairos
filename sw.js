@@ -1,5 +1,5 @@
 /* Kairos Service Worker – App-Shell offline, Marktdaten network-first */
-const VERSION = 'kairos-v2.1.0';
+const VERSION = 'kairos-v2.1.1';
 const SHELL = 'kairos-shell-' + VERSION;
 const DATA = 'kairos-data';
 const SHELL_FILES = [

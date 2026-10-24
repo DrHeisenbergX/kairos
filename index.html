@@ -841,6 +841,7 @@ select.input option{background:var(--card-solid);color:var(--text)}
 .plan-list>*{min-width:0}
 .tbl.cmp,.tbl.yrs{min-width:0}
 @media (max-width:760px){.tbl.cmp th,.tbl.cmp td,.tbl.yrs th,.tbl.yrs td{padding:7px 5px;font-size:12px}.tbl.yrs th{white-space:normal}}
+.ir-short{color:var(--warn);font-weight:600}
 
 </style>
 </head>
@@ -1008,7 +1009,7 @@ Object.assign(ICONS,{
 });
 
 /* ===== Kairos – Kern: Formate, Zustand, Gebühren, Daten ===== */
-const APP_VERSION='2.1.0',SCHEMA=3,KEY='kairos.v1',THEME_KEY='kairos.theme',HINT_KEY='kairos.hint';
+const APP_VERSION='2.1.1',SCHEMA=3,KEY='kairos.v1',THEME_KEY='kairos.theme',HINT_KEY='kairos.hint';
 const IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const ic=(n,style='')=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true"${style?` style="${style}"`:''}>${ICONS[n]||''}</svg>`;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1103,8 +1104,11 @@ const U=()=>DATA?DATA.instruments.filter(inScope):[];
 const fits=o=>PROFILES[S.settings.risk].ok(o)&&inScope(o);
 /* Signal für deinen Einsatz: Kaufzone nur, wenn der Gebührenfilter bei DEINEM Einsatz besteht */
 const SE=new Map();let SEkey='';
+/* zu kurze Kurshistorie (z. B. Börsengang): nie Kaufzone */
+const shortTxt=o=>o&&o.short?`Zu wenig Kursdaten (${o.short.ipo?'Börsengang '+dmy(o.short.ipo):'Daten seit '+dmy(o.short.since)})`:'';
 function sigEff(o){const k=S.settings.stake+'|'+S.settings.risk+'|'+techOn()+'|'+JSON.stringify(S.stakes)+'|'+(DATA&&DATA.generated);if(k!==SEkey){SE.clear();SEkey=k}
   if(SE.has(o.t))return SE.get(o.t);let r=o.sig;
+  if(o.short){r='Beobachten';SE.set(o.t,r);return r}
   if(!inScope(o)){r=o.sig==='Kaufzone'?(o.alt||'Halten'):o.sig;SE.set(o.t,r);return r}
   if(o.pl&&o.pl.gate&&clsOf(o)){const ok=passes(stakeOf(o),o);r=ok?(fits(o)?'Kaufzone':'Beobachten'):(o.sig==='Kaufzone'?(o.alt||'Halten'):o.sig)}
   else if(o.sig==='Kaufzone'&&!fits(o))r='Beobachten';
@@ -1172,7 +1176,7 @@ function tradeLine(o,stake){const e=ev(o,stake);if(e==null)return '';const c=fee
   return `<div class="tl num">Einsatz ${chf(stake,0)} → <b class="${e>0?'pos':'negv'}">erwartet ${chfS(e)}</b> netto · Gebühren ca. ${chf(c.fees)}</div>`}
 function feeLine(o,stake){const g=gateStake(o);return `<div class="tl num fee-tl">${ic('alert','width:13px;height:13px')}Setup da, aber Gebühren fressen den Vorteil bei ${chf(stake,0)}${g?` – sinnvoll ab ${chf(g,0)}`:' – bei Yuh bei keinem Einsatz sinnvoll'}</div>`}
 function instRow(o,{showTrade=true}={}){const st=stakeOf(o);const k=sigEff(o);
-  return `<button class="ir" data-open="${esc(o.t)}"><span class="ir-l">${mono(o)}<span class="ir-m"><span class="ir-n">${esc(o.n)}${S.watch.includes(o.t)?ic('starFill','width:13px;height:13px;color:var(--warn);margin-left:6px;vertical-align:-1px'):''}</span><span class="ir-s">${esc(o.t)} · ${esc(o.ty)} · ${esc(o.rg)}${o.sec&&o.ty==='Aktie'?' · '+esc(o.sec):''}</span>${showTrade&&k==='Kaufzone'?tradeLine(o,st):showTrade&&feeBlocked(o)?feeLine(o,st):''}</span></span>
+  return `<button class="ir" data-open="${esc(o.t)}"><span class="ir-l">${mono(o)}<span class="ir-m"><span class="ir-n">${esc(o.n)}${S.watch.includes(o.t)?ic('starFill','width:13px;height:13px;color:var(--warn);margin-left:6px;vertical-align:-1px'):''}</span><span class="ir-s">${esc(o.t)} · ${esc(o.ty)} · ${esc(o.rg)}${o.sec&&o.ty==='Aktie'?' · '+esc(o.sec):''}</span>${o.short?`<span class="ir-s ir-short">${esc(shortTxt(o))}</span>`:''}${showTrade&&k==='Kaufzone'?tradeLine(o,st):showTrade&&feeBlocked(o)?feeLine(o,st):''}</span></span>
   <span class="ir-r"><span class="ir-p num">${chf(o.pc)}</span><span class="ir-c">${chg(o.d1)}${badge(o)}</span></span></button>`}
 
 /* ===== Übersicht ===== */
@@ -1312,7 +1316,7 @@ function renderSettings(){const el=$('#settingsView');const st=S.settings;const 
   el.innerHTML=`<div class="grid">
   <div class="card span-12 more-links"><button class="ml" data-goto="plan"><span class="kpi-ico" style="background:var(--mint-soft);color:var(--mint)">${ic('coins')}</span><span><b>Sparplan</b><small>Gebührenfrei kaufen – ab CHF 10 pro Monat</small></span>${ic('chev','width:16px;height:16px')}</button><button class="ml" data-goto="how"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('percent')}</span><span><b>So rechnet Kairos</b><small>Gebühren, Regeln, ehrlicher Rückblick-Test</small></span>${ic('chev','width:16px;height:16px')}</button></div>
   <div class="card span-12"><div class="card-head"><div><div class="card-title">Anlage-Universum</div><div class="card-sub">Welche Titel Kairos für Signale und Kaufzone berücksichtigt</div></div></div>
-   <label class="switch-row"><input type="checkbox" id="sTech" role="switch"${techOn()?' checked':''}><span class="sw" aria-hidden="true"></span><span><b>Nur Tech</b><small>${D&&D.tech?`${D.tech.count} Tech-Aktien und Tech-ETFs bei Yuh (Halbleiter, Software, IT-Dienste, Hardware, Internet-Plattformen wie Alphabet, Meta, Amazon; Nasdaq-100- und Tech-ETFs)`:'Tech-Aktien und Tech-ETFs'}. Aus: alle ${D?D.count:''} Yuh-Titel. Watchlist und Positionen bleiben immer sichtbar.</small></span></label>
+   <label class="switch-row"><input type="checkbox" id="sTech" role="switch"${techOn()?' checked':''}><span class="sw" aria-hidden="true"></span><span><b>Nur Tech</b><small>${D&&D.tech?`${D.tech.count} Tech-Aktien und Tech-ETFs bei Yuh (Halbleiter, Software, IT-Dienste, Hardware, Internet-Plattformen wie Alphabet, Meta, Amazon; dazu auf Wunsch Tesla und SpaceX; Nasdaq-100- und Tech-ETFs)`:'Tech-Aktien und Tech-ETFs'}. Aus: alle ${D?D.count:''} Yuh-Titel. Watchlist und Positionen bleiben immer sichtbar.</small></span></label>
    <p class="set-note">${ic('alert')}<span><b>Klumpenrisiko:</b> Nur eine Branche heisst grössere Schwankungen. ${D&&D.baskets&&D.baskets.tech?`Ein gleichgewichteter Korb aller Tech-Titel fiel 2022 zeitweise um ${pct(-D.baskets.tech.dd22,0,false)}, alle Yuh-Titel zusammen um ${pct(-D.baskets.all.dd22,0,false)}.`:''} Für den Grundstock eignet sich ein breiter Welt-ETF im Sparplan.</span></p></div>
   <div class="card span-7"><div class="card-head"><div><div class="card-title">Risikoprofil</div><div class="card-sub">Filtert, welche Kaufzone-Signale du siehst</div></div></div>
    <div class="radio-list">${Object.entries(PROFILES).map(([k,p])=>`<label class="radio-row"><input type="radio" name="risk" value="${k}"${st.risk===k?' checked':''}><span><b>${p.l}</b><small>${p.d}</small></span></label>`).join('')}</div></div>
@@ -1404,7 +1408,7 @@ function techSection(D){const T=D.backtest_tech,A=D.backtest,BT=D.baskets||{},bt
   return `<div class="card span-12" style="--i:4"><div class="card-head"><div><div class="card-title">5 · Tech-Fokus und Klumpenrisiko <span class="pill-tech">Tech</span></div><div class="card-sub">${D.tech?esc(D.tech.rule):''}</div></div></div>
    <div class="pc-grid num tech-kpi"><div><small>Grösster Rückgang 2022</small><b class="negv">${pct(bt.dd22,0)}</b><span>Tech-Korb · alle Titel ${pct(ba.dd22,0)}</span></div><div><small>Schwankung pro Jahr</small><b>${pct(bt.vol,0,false)}</b><span>Tech · alle Titel ${pct(ba.vol,0,false)}</span></div><div><small>Ø Rendite pro Jahr seit 2016</small><b class="pos">${pct(bt.cagr,0)}</b><span>Tech · alle Titel ${pct(ba.cagr,0)}</span></div></div>
    ${tbl}${yt}
-   <p class="set-note">${ic('alert')}<span><b>Ehrlich:</b> Tech lief seit 2016 deutlich besser als der Rest – aber genau das macht den Rückblick zu optimistisch: Getestet sind die Tech-Titel, die es heute bei Yuh gibt, also die Überlebenden des Booms. 2022 brach der Tech-Korb zeitweise um ${pct(-bt.dd22,0,false)} ein, und Tech-Kaufzonen von 2022 verloren im Schnitt. Ab 2022 stützt sich das Tech-Ergebnis auf wenige Trades (kleine Zahlen = Anzahl). «Die Branche wächst stark» ist schon im Kurs eingepreist – höhere Erwartung heisst hier vor allem höheres Risiko. Korb = alle Titel gleich gewichtet, täglich in CHF.</span></p></div>`}
+   <p class="set-note">${ic('alert')}<span><b>Ehrlich:</b> Tech lief seit 2016 deutlich besser als der Rest – aber genau das macht den Rückblick zu optimistisch: Getestet sind die Tech-Titel, die es heute bei Yuh gibt, also die Überlebenden des Booms. Tesla wurde zudem nachträglich von Hand aufgenommen – das hebt vor allem 2020 (Rückschaufehler). SpaceX (Börsengang 12.06.2026) hat noch zu wenig Kursdaten und fehlt im Test. 2022 brach der Tech-Korb zeitweise um ${pct(-bt.dd22,0,false)} ein, und Tech-Kaufzonen von 2022 verloren im Schnitt. Ab 2022 stützt sich das Tech-Ergebnis auf wenige Trades (kleine Zahlen = Anzahl). «Die Branche wächst stark» ist schon im Kurs eingepreist – höhere Erwartung heisst hier vor allem höheres Risiko. Korb = alle Titel gleich gewichtet, täglich in CHF.</span></p></div>`}
 
 /* ===== Modal-Grundlagen ===== */
 let lastFocus=null;
@@ -1424,7 +1428,7 @@ function indRows(o){const i=o.i,c=o.ccy;const R=[];
   if(i.ma200!=null)R.push(['Golden / Death Cross',i.gc?'50 über 200':'50 unter 200',(i.cross==='golden'?'Frisches Golden Cross in den letzten 20 Tagen – ':i.cross==='death'?'Frisches Death Cross in den letzten 20 Tagen – ':'')+(i.gc?'die 50-Tage-Linie liegt über der 200-Tage-Linie (positiv).':'die 50-Tage-Linie liegt unter der 200-Tage-Linie (negativ).'),i.gc]);
   R.push(['RSI (14 Tage)',grp(i.rsi,0),i.rsi>=70?'Überkauft – nach starken Anstiegen kommt oft eine Verschnaufpause.':i.rsi<=30?'Überverkauft – häufig folgt eine Gegenbewegung, aber nicht garantiert.':'Neutral – weder überkauft (über 70) noch überverkauft (unter 30).',i.rsi>30&&i.rsi<70]);
   if(i.mr)R.push(['Momentum-Rang',`${i.mr} von ${i.mn}`,'Rang nach 12-Monats-Rendite ohne letzten Monat, nur Titel über der 200-Tage-Linie. Top 10 % = Momentum-Setup.',i.mr<=Math.max(1,Math.floor(i.mn*.1))]);
-  R.push(['Rendite 3 / 6 / 12 Monate',`${pct(i.r3)} / ${pct(i.r6)} / ${pct(i.r12)}`,'Momentum: Titel, die gut gelaufen sind, laufen oft weiter – bis der Trend bricht.',(i.r6||0)>0]);
+  R.push(['Rendite 3 / 6 / 12 Monate',`${pct(i.r3)} / ${pct(i.r6)} / ${pct(i.r12)}`,o.short?'Für 6 und 12 Monate gibt es noch keine Kursdaten.':'Momentum: Titel, die gut gelaufen sind, laufen oft weiter – bis der Trend bricht.',i.r6==null?null:i.r6>0]);
   if(i.dd!=null)R.push(['Abstand zum 52-Wochen-Hoch',pct(i.dd),i.dd>-0.05?'Nahe am Jahreshoch.':i.dd<-0.3?'Weit unter dem Jahreshoch – erhöhtes Risiko oder Erholungspotenzial.':'Moderater Rücksetzer vom Jahreshoch.',i.dd>-0.2]);
   if(i.vol!=null)R.push(['Schwankung (Volatilität)',pct(i.vol,0,false)+' p. a.',i.vol<.25?'Ruhig.':i.vol<.45?'Mittlere Schwankung.':'Stark schwankend – kleine Einsätze, enge Planung.',i.vol<.45]);
   R.push(['Tagesspanne (ATR 14)',`${money(i.atr,c)} · ${pct(i.atrp,1,false)}`,'Typische Bewegung pro Tag in der Handelswährung.',null]);
@@ -1437,7 +1441,12 @@ function noSetupBox(o,stake){const c=tradeAt(stake,0,o),be=breakEven(stake,o),pi
   return `<div class="tbox none"><div class="tb-h">${ic('info')}<b>Gebühren-Check – kein Kaufsignal</b></div>
    <div class="fees num"><div><span>Kauf + Verkauf bei ${chf(stake,0)}</span><b>${chf(-c.net)}</b></div><div><span>Break-even</span><b>Kurs +${grp(be*100,2)} %</b></div>${o.fxfee?`<div><span>davon Devisenzuschlag</span><b>${chf(c.fb.fx+c.fs.fx)}</b></div>`:''}</div>
    ${pi?`<div class="note-bar ok">${ic('coins')}<span>Im <button class="link-btn" data-goto="plan">Sparplan</button> kaufst du diesen ETF ohne Handelsgebühr – für regelmässige kleine Beträge der günstigste Weg.</span></div>`:''}</div>`}
+function shortBox(o,stake){const c=tradeAt(stake,0,o),be=breakEven(stake,o),s=o.short;
+  return `<div class="tbox none"><div class="tb-h">${ic('info')}<b>${esc(shortTxt(o))}</b></div>
+   <div class="note-bar warn">${ic('alert')}<span>Erst ${grp(s.n,0)} Handelstage Kursdaten (seit ${dmy(s.since)}). Die Kairos-Regeln brauchen mindestens ${grp(s.need,0)} Handelstage für 200-Tage-Linie, 12-Monats-Rendite und Backtest – frühestens ab etwa ${dmy(s.ready)} kann ein Signal entstehen. Bis dahin keine Kaufzone, nur beobachten.</span></div>
+   <div class="fees num"><div><span>Kauf + Verkauf bei ${chf(stake,0)}</span><b>${chf(-c.net)}</b></div><div><span>Break-even</span><b>Kurs +${grp(be*100,2)} %</b></div>${o.fxfee?`<div><span>davon Devisenzuschlag</span><b>${chf(c.fb.fx+c.fs.fx)}</b></div>`:''}</div></div>`}
 function tradeBox(o){const stake=stakeOf(o);
+  if(o.short)return shortBox(o,stake);
   if(!o.pl||!clsOf(o))return noSetupBox(o,stake);
   const p=o.pl,c=feeCheck(o,stake),ok=fits(o),pass=passes(stake,o),gs=gateStake(o),ms=minStake(o),goal=S.settings.goal,sf=stakeFor(o,goal),pg=probNet(stake,o,goal),st=c.st,R=RULES();
   const verdict=pass?`<span class="vd ok">${ic('check','width:14px;height:14px')}Lohnt sich bei ${chf(stake,0)}</span>`:gs?`<span class="vd warn">${ic('alert','width:14px;height:14px')}Lohnt sich erst ab ${chf(gs,0)}</span>`:`<span class="vd bad">${ic('ban','width:14px;height:14px')}Lohnt sich bei Yuh nicht</span>`;
@@ -1460,9 +1469,9 @@ function tradeBox(o){const stake=stakeOf(o);
    <div class="goalrow">${ic('coins')}<span>Ziel <b>${chf(goal,0)} netto</b>: Mit ${chf(stake,0)} lag das in <b>${pct(pg,0,false)}</b> der früheren Fälle drin. ${sf?`Beim typischen Verlauf bräuchtest du etwa <b class="num">${chf(sf,0)}</b> Einsatz – im schlechten Fall (1 von 10) wären das ${chfS(netAt(sf,st.p10,o))}.`:'Beim typischen Verlauf mit vernünftigem Einsatz nicht erreichbar.'}</span></div>
    <p class="fine">Erwartung aus ${grp(st.n,0)} früheren Signalen derselben Art (alle Yuh-Titel, 10 Jahre), jeder Ausgang einzeln nach Yuh-Gebühren gerechnet. Regel: kaufen, rund 6 Monate (${p.hd} Handelstage) halten, dann neu prüfen – ohne engen Stopp, weil Stopps im Test mehr Gebühren als Nutzen brachten. Ein Modellwert, keine Prognose. <button class="link-btn" data-goto="how">So rechnet Kairos</button></p></div>`}
 function openDetail(t){const o=BY[t];if(!o)return;detailT=t;const w=S.watch.includes(t);
-  const srcs={O:'offizielle Yuh-Produktliste (03.08.2023)',L:'liebefinanzen.ch-Liste (Stand 12.08.2026)',Y:'yuh.com Sparplan-Seite'};
+  const srcs={O:'offizielle Yuh-Produktliste (03.08.2023)',L:'liebefinanzen.ch-Liste (Stand 12.08.2026)',Y:'yuh.com Sparplan-Seite',S:'liebefinanzen.ch-Artikel «SpaceX Aktie kaufen in der Schweiz» (07.08.2026)'};
   openModal(`${mHead(`${esc(o.n)}`,`${esc(o.t)} · ${esc(o.ex)} · ${esc(o.ccy)} · ${esc(o.ty)}`,`<button type="button" class="icon-btn${w?' on':''}" data-star="${esc(t)}" aria-pressed="${w}" aria-label="${w?'Von Watchlist entfernen':'Zur Watchlist'}">${ic(w?'starFill':'star')}</button>`)}
-   <div class="d-top"><div><div class="d-px num">${money(o.p,o.ccy)}</div><div class="d-sub num">${o.ccy!=='CHF'?`≈ ${chf(o.pc)} · `:''}${chg(o.d1,2)} · Kurs vom ${dmy(o.asof)}</div></div><div class="d-sig">${badge(o)}<span class="d-sc num">Score ${o.sc}<small>/100</small></span></div></div>
+   <div class="d-top"><div><div class="d-px num">${money(o.p,o.ccy)}</div><div class="d-sub num">${o.ccy!=='CHF'?`≈ ${chf(o.pc)} · `:''}${chg(o.d1,2)} · Kurs vom ${dmy(o.asof)}</div></div><div class="d-sig">${badge(o)}${o.short?'<span class="d-sc num">Score –</span>':`<span class="d-sc num">Score ${o.sc}<small>/100</small></span>`}</div></div>
    <p class="d-x">${esc(o.x)}</p>
    ${tradeBox(o)}
    <div class="d-sec"><div class="d-sh"><b>Kursverlauf in CHF</b><div class="seg-ctl" role="group" aria-label="Zeitraum">${['1M','6M','1Y'].map(r=>`<button data-range="${r}" aria-pressed="${chartRange===r}">${r==='1Y'?'1J':r}</button>`).join('')}</div></div><div class="chart" id="dChart"><div class="chart-load">Lade Verlauf …</div></div></div>
