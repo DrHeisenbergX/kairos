@@ -817,6 +817,30 @@ select.input option{background:var(--card-solid);color:var(--text)}
 }
 .tb-h{flex-wrap:wrap}
 @media (max-width:760px){.tb-h b{flex:1 1 0;min-width:0}.tb-h .vd{order:3;margin-left:26px}}
+/* v2.1 Tech-Fokus */
+.pill-tech{display:inline-flex;align-items:center;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:650;letter-spacing:.02em;background:color-mix(in srgb,#6d5dfc 14%,transparent);color:#5b4be0;vertical-align:middle}
+[data-theme=dark] .pill-tech{color:#a99fff}
+.bt2 th.hl,.bt2 td.hl,.yrs td.hl{background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.bt2 th.hl small{display:block;font-weight:500;opacity:.7;font-size:10px}
+.bt2 tr.g-tech td:first-child{font-weight:650;color:#5b4be0}[data-theme=dark] .bt2 tr.g-tech td:first-child{color:#a99fff}
+.switch-row{display:flex;gap:14px;align-items:flex-start;cursor:pointer;padding:6px 0}
+.switch-row input{position:absolute;opacity:0;width:1px;height:1px}
+.switch-row .sw{flex:0 0 46px;height:28px;border-radius:999px;background:var(--input);border:1px solid var(--border);position:relative;transition:background .2s}
+.switch-row .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch-row input:checked+.sw{background:var(--accent);border-color:var(--accent)}
+.switch-row input:checked+.sw::after{transform:translateX(18px)}
+.switch-row input:focus-visible+.sw{outline:2px solid var(--accent);outline-offset:2px}
+.switch-row b{display:block}.switch-row small{display:block;color:var(--text2);margin-top:2px;line-height:1.45}
+.tp-lead{margin:0 0 10px;line-height:1.55}
+.yrs td,.yrs th{white-space:nowrap}
+.tech-kpi{margin-bottom:14px}
+.tp-lead .link-btn{display:inline;white-space:normal;padding:0;text-align:left;font:inherit;font-weight:650}
+.yrs tr.y-bad td{background:color-mix(in srgb,var(--danger,#e11d48) 6%,transparent)}
+.bt2 td small.tn,.yrs td small.tn,.yrs th small.tn{display:block}
+.opp,.plan-it{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
+.plan-list>*{min-width:0}
+.tbl.cmp,.tbl.yrs{min-width:0}
+@media (max-width:760px){.tbl.cmp th,.tbl.cmp td,.tbl.yrs th,.tbl.yrs td{padding:7px 5px;font-size:12px}.tbl.yrs th{white-space:normal}}
 
 </style>
 </head>
@@ -984,7 +1008,7 @@ Object.assign(ICONS,{
 });
 
 /* ===== Kairos – Kern: Formate, Zustand, Gebühren, Daten ===== */
-const APP_VERSION='2.0.0',SCHEMA=2,KEY='kairos.v1',THEME_KEY='kairos.theme',HINT_KEY='kairos.hint';
+const APP_VERSION='2.1.0',SCHEMA=3,KEY='kairos.v1',THEME_KEY='kairos.theme',HINT_KEY='kairos.hint';
 const IOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const ic=(n,style='')=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true"${style?` style="${style}"`:''}>${ICONS[n]||''}</svg>`;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1005,7 +1029,7 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 function parseAmt(s){s=String(s??'').replace(/[’'\s]/g,'').replace(',','.').replace(/^CHF/i,'');const n=parseFloat(s);return Number.isFinite(n)?n:NaN}
 
 /* ---------- Lokaler Zustand (startet leer) ---------- */
-const DEF={v:SCHEMA,watch:[],pos:[],settings:{stake:100,goal:20,risk:'ausgewogen',plan:50},stakes:{}};
+const DEF={v:SCHEMA,watch:[],pos:[],settings:{stake:250,goal:20,risk:'ausgewogen',plan:50,tech:true},stakes:{}};
 const LOAD_WARN=[];
 function sanitize(o){
   const s=JSON.parse(JSON.stringify(DEF));if(!o||typeof o!=='object')return s;
@@ -1013,7 +1037,8 @@ function sanitize(o){
   s.watch=Array.isArray(o.watch)?[...new Set(o.watch.filter(x=>typeof x==='string'&&x.length<40))]:[];
   s.pos=Array.isArray(o.pos)?o.pos.filter(p=>p&&typeof p.t==='string'&&Number.isFinite(+p.stake)&&+p.stake>0&&Number.isFinite(+p.buy)&&+p.buy>0).map(p=>({id:String(p.id||uid()),t:p.t,stake:+p.stake,buy:+p.buy,fx:Number.isFinite(+p.fx)&&+p.fx>0?+p.fx:null,date:typeof p.date==='string'?p.date.slice(0,10):'',note:String(p.note||'').slice(0,200)})):[];
   const st=o.settings||{};s.settings={...s.settings,...st};
-  s.settings.stake=clamp(Number.isFinite(+st.stake)&&+st.stake>0?+st.stake:100,10,1e6);
+  s.settings.stake=clamp(Number.isFinite(+st.stake)&&+st.stake>0?+st.stake:250,10,1e6);
+  s.settings.tech=typeof st.tech==='boolean'?st.tech:true;
   s.settings.goal=clamp(Number.isFinite(+st.goal)&&+st.goal>0?+st.goal:20,1,1e5);
   if(!['vorsichtig','ausgewogen','offensiv'].includes(st.risk))s.settings.risk='ausgewogen';
   s.settings.plan=clamp(Number.isFinite(+st.plan)&&+st.plan>0?+st.plan:50,10,1e5);
@@ -1025,6 +1050,8 @@ let S;
 try{const raw=localStorage.getItem(KEY);if(raw){try{const o=JSON.parse(raw);const ov=o&&+o.v||1;
   /* Migration: ältere Daten unverändert sichern, dann übernehmen (nie löschen) */
   if(ov<SCHEMA){try{const bk=KEY+'.backup-v'+ov;if(!localStorage.getItem(bk))localStorage.setItem(bk,raw)}catch(_){}}
+  /* v2→v3: Standard-Einsatz 100 → 250 (nur wenn nie geändert, d. h. noch exakt der alte Standard) */
+  if(ov<3&&o&&o.settings&&+o.settings.stake===100)o.settings.stake=250;
   S=sanitize(o);if(ov<SCHEMA){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(_){}}}catch(e){try{localStorage.setItem(KEY+'.backup-'+Date.now(),raw)}catch(_){}S=sanitize(null);LOAD_WARN.push('Gespeicherte Daten waren beschädigt – Sicherung angelegt, neu gestartet.')}}else S=sanitize(null)}catch(e){S=sanitize(null)}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Speichern nicht möglich (Speicher voll oder privat?)',null,'warn')}}
 
@@ -1070,11 +1097,15 @@ function feeCheck(o,stake){const e=expectAt(stake,o);const st=e&&e.st;const med=
 const PROFILES={vorsichtig:{l:'Vorsichtig',d:'Nur ruhige Titel (Volatilität unter 25 %), keine Krypto oder Krypto-ETPs.',ok:o=>o.rk==='tief'&&o.ty!=='Krypto'&&o.rg!=='Krypto-ETP'},
   ausgewogen:{l:'Ausgewogen',d:'Ruhige und mittlere Schwankung (Volatilität bis 45 %), ohne stark schwankende Titel, Krypto und Krypto-ETPs. Standard.',ok:o=>o.rk!=='hoch'},
   offensiv:{l:'Offensiv',d:'Alle Signale inklusive stark schwankender Aktien. Krypto erzeugt keine Kaufzone (über 6 Monate im Test negativ).',ok:()=>true}};
-const fits=o=>PROFILES[S.settings.risk].ok(o);
+const techOn=()=>S.settings.tech!==false;
+const inScope=o=>!techOn()||!!o.tech;
+const U=()=>DATA?DATA.instruments.filter(inScope):[];
+const fits=o=>PROFILES[S.settings.risk].ok(o)&&inScope(o);
 /* Signal für deinen Einsatz: Kaufzone nur, wenn der Gebührenfilter bei DEINEM Einsatz besteht */
 const SE=new Map();let SEkey='';
-function sigEff(o){const k=S.settings.stake+'|'+S.settings.risk+'|'+JSON.stringify(S.stakes)+'|'+(DATA&&DATA.generated);if(k!==SEkey){SE.clear();SEkey=k}
+function sigEff(o){const k=S.settings.stake+'|'+S.settings.risk+'|'+techOn()+'|'+JSON.stringify(S.stakes)+'|'+(DATA&&DATA.generated);if(k!==SEkey){SE.clear();SEkey=k}
   if(SE.has(o.t))return SE.get(o.t);let r=o.sig;
+  if(!inScope(o)){r=o.sig==='Kaufzone'?(o.alt||'Halten'):o.sig;SE.set(o.t,r);return r}
   if(o.pl&&o.pl.gate&&clsOf(o)){const ok=passes(stakeOf(o),o);r=ok?(fits(o)?'Kaufzone':'Beobachten'):(o.sig==='Kaufzone'?(o.alt||'Halten'):o.sig)}
   else if(o.sig==='Kaufzone'&&!fits(o))r='Beobachten';
   SE.set(o.t,r);return r}
@@ -1107,7 +1138,7 @@ const VIEWS=[
 ];
 function greeting(){const h=new Date().getHours();return (h<11?'Guten Morgen':h<18?'Guten Tag':'Guten Abend')+', CyberX'}
 let current='dashboard';
-function kzCount(){return DATA?DATA.instruments.filter(o=>sigEff(o)==='Kaufzone').length:0}
+function kzCount(){return DATA?U().filter(o=>sigEff(o)==='Kaufzone').length:0}
 function buildNav(){
   const n=kzCount();
   $('#sideNav').innerHTML=VIEWS.map(v=>`<button class="nav-btn${v.id===current?' active':''}" data-goto="${v.id}"${v.id===current?' aria-current="page"':''}>${ic(v.icon)}${v.label}${v.id==='signals'&&n?`<span class="count num kz">${n}</span>`:v.id==='watch'&&S.watch.length?`<span class="count num">${S.watch.length}</span>`:v.id==='pos'&&S.pos.length?`<span class="count num">${S.pos.length}</span>`:''}</button>`).join('');
@@ -1146,7 +1177,7 @@ function instRow(o,{showTrade=true}={}){const st=stakeOf(o);const k=sigEff(o);
 
 /* ===== Übersicht ===== */
 const FEE_PROFILES=[{l:'CH-Aktie an der SIX',s:'z. B. Nestlé, Sika',o:{kind:'Wertschrift',ch:true,fxfee:false}},{l:'Ausländischer Titel in CHF',s:'z. B. VWRL, Alcon',o:{kind:'Wertschrift',ch:false,fxfee:false}},{l:'USD/EUR-Titel',s:'+0.95 % Devisen je Richtung',o:{kind:'Wertschrift',ch:false,fxfee:true}},{l:'Krypto',s:'1 % je Richtung',o:{kind:'Krypto',ch:false,fxfee:false}}];
-function topChances(){if(!DATA)return[];return DATA.instruments.filter(o=>sigEff(o)==='Kaufzone').map(o=>({o,ev:ev(o,stakeOf(o)),c:feeCheck(o,stakeOf(o))})).sort((a,b)=>(b.ev??-1e9)-(a.ev??-1e9))}
+function topChances(){if(!DATA)return[];return U().filter(o=>sigEff(o)==='Kaufzone').map(o=>({o,ev:ev(o,stakeOf(o)),c:feeCheck(o,stakeOf(o))})).sort((a,b)=>(b.ev??-1e9)-(a.ev??-1e9))}
 const nearStake=s=>[100,250,500].reduce((a,b)=>Math.abs(b-s)<Math.abs(a-s)?b:a,100);
 function oppCard({o,ev:e,c}){const chfT=o.ccy==='CHF'&&!o.fxfee;
   return `<button class="opp" data-open="${esc(o.t)}">
@@ -1154,15 +1185,15 @@ function oppCard({o,ev:e,c}){const chfT=o.ccy==='CHF'&&!o.fxfee;
       <div class="opp-bar num"><span class="g">Typisch ${chfS(c.med)}</span><span class="l">Schlecht ${chfS(c.bad)}</span><span class="f">Gebühren ${chf(c.fees)}</span><span>Gebührenanteil ${grp(Math.min(c.share,9.99)*100,0)} %</span></div></button>`}
 function renderDash(){const el=$('#dash');
   if(!DATA){el.innerHTML=`<div class="card"><div class="big-empty"><div class="be-ico">${ic(LOADERR?'alert':'refresh')}</div><h3>${LOADERR?'Daten konnten nicht geladen werden':'Daten werden geladen …'}</h3><p>${LOADERR?'Bitte Internetverbindung prüfen und erneut versuchen. Fehler: '+esc(LOADERR):'Einen Moment.'}</p>${LOADERR?'<button class="btn btn-primary" data-action="reload">Erneut versuchen</button>':''}</div></div>`;return}
-  const D=DATA,tops=topChances(),stake=S.settings.stake,blocked=D.instruments.filter(feeBlocked),fixable=blocked.filter(o=>gateStake(o)!=null);
+  const D=DATA,tops=topChances(),stake=S.settings.stake,blocked=U().filter(feeBlocked),TO=techOn(),fixable=blocked.filter(o=>gateStake(o)!=null);
   const mk=D.market.map(m=>{const v=m.k==='fx'?grp(m.v,4):m.k==='btc'?'USD '+grp(m.v,0):grp(m.v,2);
     return `<div class="mkt"><div class="mkt-h"><span class="mkt-n">${esc(m.n)}</span>${chg(m.d1,2)}</div><div class="mkt-v num">${v}</div><div class="mkt-f">${m.k==='btc'&&m.chf?`≈ ${chf(m.chf,0)} · `:''}1 Mt. ${pct(m.m1)}${m.up!=null?` · ${m.up?'über':'unter'} 200-T.`:''}</div>${sparkSvg(m.sp,160,34)}</div>`}).join('');
-  const ns=nearStake(stake),B=D.backtest||{},g=B.oos&&B.oos.gate&&B.oos.gate[ns]||{},live=D.live||{};
-  const dist=SIGS.map(s=>({...s,n:D.instruments.filter(o=>sigEff(o)===s.k).length}));const tot=D.instruments.length||1;
+  const ns=nearStake(stake),B=(TO&&D.backtest_tech)||D.backtest||{},g=B.oos&&B.oos.gate&&B.oos.gate[ns]||{},live=D.live||{};
+  const UU=U(),dist=SIGS.map(s=>({...s,n:UU.filter(o=>sigEff(o)===s.k).length}));const tot=UU.length||1;
   const topHtml=tops.length?tops.slice(0,6).map(oppCard).join(''):`<div class="soft-empty"><b>Heute keine Kaufzone</b> für dein Risikoprofil «${PROFILES[S.settings.risk].l}» bei ${chf(stake,0)} Einsatz. Kein Setup erzwingen – jeder Trade kostet Gebühren. ${blocked.length?'':'Für kleine Beträge ist der <button class="link-btn" data-goto="plan">Sparplan</button> der günstigere Weg.'}</div>`;
   const blkNote=blocked.length?`<div class="note-bar warn" style="margin-top:12px">${ic('alert')}<span><b>${blocked.length} weitere Setup${blocked.length>1?'s':''}</b> lohn${blocked.length>1?'en':'t'} sich bei ${chf(stake,0)} wegen der Gebühren nicht${(()=>{const gs=blocked.map(gateStake).filter(Boolean);return gs.length?` – das günstigste erst ab ${chf(Math.min(...gs),0)}`:''})()}. <button class="link-btn" data-sig-go="Halten">Ansehen</button></span></div>`:'';
   const compass=FEE_PROFILES.map(p=>{const rt=-netAt(stake,0,p.o),be=breakEven(stake,p.o),w=Math.min(100,be*100/7*100);return `<div class="fc-row"><div class="fc-l"><b>${p.l}</b><small>${p.s}</small></div><div class="fc-bar"><i style="width:${w.toFixed(1)}%" class="${be<.025?'ok':be<.035?'mid':'bad'}"></i></div><div class="fc-v num"><b>${chf(rt)}</b><small>+${grp(be*100,2)} % nötig</small></div></div>`}).join('');
-  const pl=(D.plans&&D.plans.items||[]).find(x=>x.t==='VWRL.SW')||(D.plans&&D.plans.items||[])[0];const pa=S.settings.plan;
+  const pl=(TO&&(D.plans&&D.plans.items||[]).find(x=>x.t==='EQCH.SW'))||(D.plans&&D.plans.items||[]).find(x=>x.t==='VWRL.SW')||(D.plans&&D.plans.items||[])[0];const pa=S.settings.plan;
   const planTeaser=pl?(()=>{const o=BY[pl.t]||{kind:'Wertschrift',ch:pl.ch,fxfee:pl.fx};const save=12*(feeSide(pa,o)-feeSide(pa,o,true));return `<div class="card span-5 plan-teaser" style="--i:5"><div class="card-head"><div><div class="card-title">Kleiner Betrag? Sparplan.</div><div class="card-sub">Wiederkehrende ETF-Käufe sind bei Yuh ohne Handelsgebühr</div></div></div>
     <div class="pt-big num"><span>${chf(pa,0)} / Monat</span><b>Kaufgebühr CHF 0.00</b><small>statt ${chf(feeSide(pa,o))} als Einzelkauf · spart ca. ${chf(save)} pro Jahr</small></div>
     <p class="set-note">${ic('info')}<span>${esc(pl.n)}: ${chf(pl.inv,0)} über ${pl.m} Monate eingezahlt wären heute netto ${chf(pl.vp,0)} (Rückblick, nach Verkaufsgebühr).</span></p>
@@ -1170,19 +1201,19 @@ function renderDash(){const el=$('#dash');
   el.innerHTML=`
   <div class="card mkt-card" style="--i:0;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Marktüberblick</div><div class="card-sub">Schlusskurse bzw. letzte verfügbare Kurse (verzögert)</div></div><span class="upd num">${ic('clock','width:14px;height:14px')}${fmtStamp(D.generated)} · ${ago(D.generated)}</span></div><div class="mkt-grid">${mk}</div></div>
   <div class="grid kpis" style="margin-bottom:20px">
-    <div class="card kpi hero span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('target')}</span>Kaufzone</div><div class="kpi-val num">${tops.length}<span class="cur" style="margin-left:6px">Signale</span></div><div class="kpi-foot">alle mit positiver Netto-Erwartung bei ${chf(stake,0)}${fixable.length?` · ${fixable.length} erst ab mehr Einsatz`:''}</div></div>
+    <div class="card kpi hero span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('target')}</span>Kaufzone</div><div class="kpi-val num">${tops.length}<span class="cur" style="margin-left:6px">Signale</span></div><div class="kpi-foot">alle mit positiver Netto-Erwartung bei ${chf(stake,0)}${fixable.length?` · ${fixable.length} erst ab mehr Einsatz`:''}${(()=>{const n=U().filter(o=>o.pl&&clsOf(o)&&passes(stakeOf(o),o)&&!PROFILES[S.settings.risk].ok(o)).length;return n?` · ${n} weitere im Profil «Offensiv» <button class="link-btn" data-goto="settings">ändern</button>`:''})()}</div></div>
     <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--mint-soft);color:var(--mint)">${ic('coins')}</span>Dein Einsatz</div><div class="kpi-val num"><span class="cur">CHF</span>${grp(stake,0)}</div><div class="kpi-foot">Ziel-Gewinn ${chf(S.settings.goal,0)} · <button class="link-btn" data-goto="settings">ändern</button></div></div>
-    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--warn-soft);color:var(--warn)">${ic('percent')}</span>Test ab 2022</div><div class="kpi-val num ${g.net>0?'':'negv'}">${g.n?chfS(g.net):'–'}<span class="cur" style="margin-left:6px">pro Trade</span></div><div class="kpi-foot">${g.n?`netto bei CHF ${ns} · ${grp(g.n,0)} Trades · ${pct(g.win,0,false)} im Plus`:'noch keine Daten'}</div></div>
-    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--input);color:var(--text2)">${ic('activity')}</span>Live-Bilanz</div><div class="kpi-val num">${live.n>=live.min?chfS(live.net100):`${live.n||0}<span class="cur" style="margin-left:6px">/ ${live.min||20} ausgewertet</span>`}</div><div class="kpi-foot">${live.n>=live.min?`Ø netto bei CHF 100 · ${live.n} Signale`:`${live.open||0} offene Signale (Auswertung nach 6 Monaten)`}</div></div>
+    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--warn-soft);color:var(--warn)">${ic('percent')}</span>${TO&&D.backtest_tech?'Tech ab 2022':'Test ab 2022'}</div><div class="kpi-val num ${g.net>0?'':'negv'}">${g.n?chfS(g.net):'–'}</div><div class="kpi-foot">${g.n?`pro Trade netto bei CHF ${ns} · ${grp(g.n,0)} Trades · ${pct(g.win,0,false)} im Plus`:'noch keine Daten'}</div></div>
+    <div class="card kpi span-3"><div class="kpi-top"><span class="kpi-ico" style="background:var(--input);color:var(--text2)">${ic('activity')}</span>Live-Bilanz</div><div class="kpi-val num">${live.n>=live.min?chfS(live.net250??live.net100):`${live.n||0}<span class="cur" style="margin-left:6px">/ ${live.min||20} ausgewertet</span>`}</div><div class="kpi-foot">${live.n>=live.min?`Ø netto bei ${live.net250!=null?'CHF 250':'CHF 100'} · ${live.n} Signale`:`${live.open||0} offene Signale (Auswertung nach 6 Monaten)`}</div></div>
   </div>
   <div class="grid" style="margin-bottom:20px">
-    <div class="card span-7" style="--i:3"><div class="card-head"><div><div class="card-title">Top-Chancen heute</div><div class="card-sub">Sortiert nach erwartetem Netto-Ergebnis in CHF für deinen Einsatz – nach allen Yuh-Gebühren</div></div><button class="link-btn" data-sig-go="Kaufzone">Alle →</button></div>${topHtml}${blkNote}</div>
+    <div class="card span-7" style="--i:3"><div class="card-head"><div><div class="card-title">Top-Chancen heute${TO?' <span class="pill-tech">Tech</span>':''}</div><div class="card-sub">${TO?'Nur Tech-Aktien und Tech-ETFs · ':''}sortiert nach erwartetem Netto-Ergebnis in CHF für deinen Einsatz – nach allen Yuh-Gebühren</div></div><button class="link-btn" data-sig-go="Kaufzone">Alle →</button></div>${topHtml}${blkNote}${TO?`<div class="note-bar" style="margin-top:12px">${ic('info')}<span><b>Klumpenrisiko:</b> Alle Chancen stammen aus einer Branche. 2022 fiel ein gleichgewichteter Korb aller Tech-Titel bei Yuh zeitweise um ${D.baskets&&D.baskets.tech?pct(-D.baskets.tech.dd22,0,false):'–'} (alle Titel: ${D.baskets&&D.baskets.all?pct(-D.baskets.all.dd22,0,false):'–'}). Nicht alles auf Tech setzen. <button class="link-btn" data-goto="how">Mehr</button> · <button class="link-btn" data-goto="settings">Nur Tech ändern</button></span></div>`:''}</div>
     <div class="card span-5" style="--i:4"><div class="card-head"><div><div class="card-title">Gebühren-Kompass</div><div class="card-sub">Kauf + Verkauf bei ${chf(stake,0)} – so viel muss der Kurs steigen, bis du im Plus bist</div></div><button class="link-btn" data-goto="how">Wie? →</button></div>${compass}
       <p class="set-note">${ic('info')}<span>Darum bevorzugt Kairos CHF-Titel an der SIX: kein Devisenzuschlag. Unter ${chf(200,0)} macht die Mindestgebühr von CHF 1 je Auftrag den Löwenanteil aus.</span></p></div>
   </div>
   <div class="grid" style="margin-bottom:20px">
     ${planTeaser}
-    <div class="card ${planTeaser?'span-7':'span-12'}" style="--i:6"><div class="card-head"><div><div class="card-title">Signalverteilung</div><div class="card-sub">${D.count} Instrumente · Profil «${PROFILES[S.settings.risk].l}» · Einsatz ${chf(stake,0)}</div></div></div>
+    <div class="card ${planTeaser?'span-7':'span-12'}" style="--i:6"><div class="card-head"><div><div class="card-title">Signalverteilung</div><div class="card-sub">${TO?`${UU.length} Tech-Titel von ${D.count}`:`${D.count} Instrumente`} · Profil «${PROFILES[S.settings.risk].l}» · Einsatz ${chf(stake,0)}</div></div></div>
       <div class="dist" role="img" aria-label="Verteilung der Signale">${dist.map(s=>s.n?`<span class="s-${s.c}" style="flex:${s.n}"></span>`:'').join('')}</div>
       <div class="dist-leg">${dist.map(s=>`<button data-sig-go="${s.k}"><i class="s-${s.c}"></i><span><b>${s.k}</b><small>${s.d}</small></span><span class="num">${s.n}<small>${Math.round(s.n/tot*100)} %</small></span></button>`).join('')}</div></div>
   </div>
@@ -1190,29 +1221,31 @@ function renderDash(){const el=$('#dash');
   <div class="card" style="--i:7;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Ehrliche Bilanz der Regeln</div><div class="card-sub">Rückblick-Test über 10 Jahre, alle Yuh-Titel, Ø Netto-Ergebnis pro Trade nach Gebühren</div></div><button class="link-btn" data-goto="how">Details →</button></div>${btTable()}</div>
   <p class="set-foot">${esc(D.universe.note)}</p>`;
 }
-function btCell(v,n){if(v==null)return '<td>–</td>';return `<td class="${v>0?'pos':'negv'}">${chfS(v)}${n!=null?`<small class="tn">${grp(n,0)}</small>`:''}</td>`}
+function btCell(v,n,i){const h=i===1?' hl':'';if(v==null)return `<td class="${h}">–</td>`;return `<td class="${v>0?'pos':'negv'}${h}">${chfS(v)}${n!=null?`<small class="tn">${grp(n,0)}</small>`:''}</td>`}
 function btTable(){const B=DATA.backtest||{},C=DATA.compare,R=DATA.bench||{};
   if(!B.oos)return '<div class="soft-empty">Noch keine Auswertung vorhanden.</div>';
   const rows=[];const per=[['is','2017–2021'],['oos','ab 2022']];
   if(C&&C.old)per.forEach(([k,l])=>{const o=C.old[k];if(o)rows.push({g:'old',n:'Alte Regeln v1 (Swing, Ziel/Stopp)',p:l,t:o.n,r:null,v:[o.net100,o.net250,o.net500]})});
   per.forEach(([k,l])=>{const o=B[k]&&B[k].all;if(o&&o.n)rows.push({g:'new',n:'Neu: alle Setups, 6 Monate halten',p:l,t:o.n,r:o.ret,v:[o.net100,o.net250,o.net500]})});
-  per.forEach(([k,l])=>{const G=B[k]&&B[k].gate;if(G)rows.push({g:'kz',n:'Neu mit Gebührenfilter = Kaufzone',p:l,t:null,r:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})});
-  if(B.l12&&B.l12.gate){const G=B.l12.gate;rows.push({g:'kz',n:'Kaufzone, letzte 12 Monate',p:'abgeschlossen',t:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})}
+  per.forEach(([k,l])=>{const G=B[k]&&B[k].gate;if(G)rows.push({g:'kz',n:'Alle Titel: Kaufzone (Gebührenfilter)',p:l,t:null,r:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})});
+  if(B.l12&&B.l12.gate){const G=B.l12.gate;rows.push({g:'kz',n:'Alle Titel: Kaufzone, letzte 12 Monate',p:'abgeschlossen',t:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})}
+  const T=DATA.backtest_tech;if(T){per.forEach(([k,l])=>{const G=T[k]&&T[k].gate;if(G)rows.push({g:'tech',n:'Nur Tech: Kaufzone',p:l,t:null,r:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})});
+    if(T.l12&&T.l12.gate){const G=T.l12.gate;rows.push({g:'tech',n:'Nur Tech: Kaufzone, letzte 12 Monate',p:'abgeschlossen',t:null,v:[G['100'].net,G['250'].net,G['500'].net],ns:[G['100'].n,G['250'].n,G['500'].n]})}}
   per.forEach(([k,l])=>{const o=R[k];if(o&&o.n)rows.push({g:'rnd',n:'Vergleich: zufälliger Einstieg, 6 Mt.',p:l,t:o.n,r:o.ret,v:[o.net100,o.net250,o.net500]})});
-  return `<div class="tbl-wrap"><table class="tbl num bt2"><thead><tr><th>Regelwerk</th><th>Zeitraum</th><th>Trades</th><th>Ø brutto</th><th>CHF 100</th><th>CHF 250</th><th>CHF 500</th></tr></thead><tbody>${rows.map(x=>`<tr class="g-${x.g}"><td>${x.n}</td><td>${x.p}</td><td>${x.t!=null?grp(x.t,0):'<small>je Einsatz</small>'}</td><td>${x.r!=null?pct(x.r,1):'–'}</td>${x.v.map((v,i)=>btCell(v,x.ns?x.ns[i]:null)).join('')}</tr>`).join('')}</tbody></table></div>
-  <p class="set-note">${ic('info')}<span>Ehrlich: Die alten Swing-Signale haben nach Gebühren bei jedem Einsatz Geld verloren. Die neuen Regeln halten rund 6 Monate und lassen nur Setups durch, deren Erwartung die Gebühren klar übersteigt. Im Lernzeitraum 2017–2021 war der Filter bei CHF 100 trotzdem negativ – die Ergebnisse schwanken stark von Jahr zu Jahr. Die Einstiege schlagen einen zufälligen Zeitpunkt nicht zuverlässig: Ein grosser Teil des Gewinns kommt vom Halten in steigenden Märkten. Kleine Zahlen unter dem Betrag = Anzahl Trades. Vergangene Ergebnisse sind keine Garantie.</span></p>`}
+  return `<div class="tbl-wrap"><table class="tbl num bt2"><thead><tr><th>Regelwerk</th><th>Zeitraum</th><th>Trades</th><th>Ø brutto</th><th>CHF 100</th><th class="hl">CHF 250 <small>Standard</small></th><th>CHF 500</th></tr></thead><tbody>${rows.map(x=>`<tr class="g-${x.g}"><td>${x.n}</td><td>${x.p}</td><td>${x.t!=null?grp(x.t,0):'<small>je Einsatz</small>'}</td><td>${x.r!=null?pct(x.r,1):'–'}</td>${x.v.map((v,i)=>btCell(v,x.ns?x.ns[i]:null,i)).join('')}</tr>`).join('')}</tbody></table></div>
+  <p class="set-note">${ic('info')}<span>Ehrlich: Die alten Swing-Signale haben nach Gebühren bei jedem Einsatz Geld verloren. Die neuen Regeln halten rund 6 Monate und lassen nur Setups durch, deren Erwartung die Gebühren klar übersteigt. Bei CHF 250 (Standard) war die Kaufzone in beiden Zeiträumen im Plus, bei CHF 100 im Lernzeitraum 2017–2021 dagegen negativ – die Ergebnisse schwanken stark von Jahr zu Jahr. Nur Tech lief ab 2022 besser, aber mit wenigen Trades und deutlich grösseren Verlustjahren (2022). Die Einstiege schlagen einen zufälligen Zeitpunkt nicht zuverlässig: Ein grosser Teil des Gewinns kommt vom Halten in steigenden Märkten. Kleine Zahlen unter dem Betrag = Anzahl Trades. Vergangene Ergebnisse sind keine Garantie.</span></p>`}
 function posSummary(){if(!S.pos.length||!DATA)return '';let inv=0,net=0;const rows=S.pos.map(p=>{const o=BY[p.t];if(!o)return '';const v=posVal(p,o);inv+=p.stake;net+=v.net;return instRow(o,{showTrade:false})}).join('');
   return `<div class="card" style="--i:5;margin-bottom:20px"><div class="card-head"><div><div class="card-title">Meine Positionen</div><div class="card-sub">Eingesetzt ${chf(inv,0)} · beim Verkauf heute netto ca. <b class="${net>=0?'pos':'negv'}">${chfS(net)}</b></div></div><button class="link-btn" data-goto="pos">Alle →</button></div>${rows}</div>`}
 
 /* ===== Signale-Liste ===== */
 const F={q:'',sig:'all',type:'',region:'',sector:'',sort:'ev'};
 const fold=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-function fillSelects(){if(!DATA)return;const I=DATA.instruments;
+function fillSelects(){if(!DATA)return;const I=U();
   const opt=(id,label,vals)=>{const el=$(id);const cur=el.value;el.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');el.value=vals.includes(cur)?cur:''};
   const uniq=f=>[...new Set(I.map(f).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'de'));
   opt('#fType','Alle Typen',uniq(o=>o.ty));opt('#fRegion','Alle Regionen',uniq(o=>o.rg));opt('#fSector','Alle Sektoren',uniq(o=>o.sec))}
 function filtered(){if(!DATA)return[];const q=fold(F.q).trim();
-  let L=DATA.instruments.filter(o=>(F.sig==='all'||sigEff(o)===F.sig)&&(!F.type||o.ty===F.type)&&(!F.region||o.rg===F.region)&&(!F.sector||o.sec===F.sector)&&(!q||fold(o.n+' '+o.t).includes(q)));
+  let L=U().filter(o=>(F.sig==='all'||sigEff(o)===F.sig)&&(!F.type||o.ty===F.type)&&(!F.region||o.rg===F.region)&&(!F.sector||o.sec===F.sector)&&(!q||fold(o.n+' '+o.t).includes(q)));
   const evs=o=>o.pl&&sigEff(o)==='Kaufzone'?ev(o,stakeOf(o)):null;
   const rank=o=>({Kaufzone:0,Beobachten:2,Halten:1,'Überhitzt':3,Meiden:4})[sigEff(o)];
   if(F.sort==='ev')L.sort((a,b)=>rank(a)-rank(b)||((evs(b)??-1e9)-(evs(a)??-1e9))||b.sc-a.sc);
@@ -1223,10 +1256,10 @@ function filtered(){if(!DATA)return[];const q=fold(F.q).trim();
 let listLimit=60;
 function renderList(){
   if(!DATA){$('#list').innerHTML=`<div class="empty"><div class="e-ico">${ic('refresh')}</div><strong>Keine Daten</strong>${LOADERR?esc(LOADERR):'Laden …'}</div>`;return}
-  const all=DATA.instruments;
+  const all=U();
   $('#sigChips').innerHTML=[{k:'all',c:'',n:all.length,l:'Alle'},...SIGS.map(s=>({k:s.k,c:s.c,l:s.k,n:all.filter(o=>sigEff(o)===s.k).length}))].map(s=>`<button class="fchip" data-sig="${s.k}" aria-pressed="${F.sig===s.k}">${s.c?`<i class="s-${s.c}"></i>`:''}${s.l} <span class="num" style="opacity:.6">${s.n}</span></button>`).join('');
   const L=filtered();
-  $('#listSum').innerHTML=`<b>${L.length}</b> Treffer${F.sig==='Kaufzone'?` · Einsatz je Titel ${chf(S.settings.stake,0)} (pro Titel änderbar)`:''}${(F.q||F.sig!=='all'||F.type||F.region||F.sector)?` · <button class="link-btn" data-action="clearfilter">Filter zurücksetzen</button>`:''}`;
+  $('#listSum').innerHTML=`${techOn()?'<span class="pill-tech">Nur Tech</span> ':''}<b>${L.length}</b> Treffer${F.sig==='Kaufzone'?` · Einsatz je Titel ${chf(S.settings.stake,0)} (pro Titel änderbar)`:''}${(F.q||F.sig!=='all'||F.type||F.region||F.sector)?` · <button class="link-btn" data-action="clearfilter">Filter zurücksetzen</button>`:''}`;
   $('#list').innerHTML=L.length?L.slice(0,listLimit).map(o=>instRow(o)).join('')+(L.length>listLimit?`<div style="text-align:center;padding:14px"><button class="btn btn-secondary" data-action="more">${L.length-listLimit} weitere anzeigen</button></div>`:''):`<div class="empty"><div class="e-ico">${ic('search')}</div><strong>Keine Treffer</strong>Andere Suche oder Filter versuchen.</div>`;
 }
 
@@ -1268,7 +1301,7 @@ function openPosForm(id,pre){const p=id?S.pos.find(x=>x.id===id):null;const o0=p
     const upd=()=>{const o=BY[$('#pT',m).value];$('#pCcy',m).textContent=o?'in '+o.ccy:'';if(!p&&o)$('#pB',m).value=o.p};
     $('#pT',m).onchange=upd;$('#pCcy',m).textContent=o0?'in '+o0.ccy:(DATA?'in '+DATA.instruments[0].ccy:'');if(!o0)upd();
     $('#pf',m).onsubmit=e=>{e.preventDefault();const t=$('#pT',m).value,o=BY[t];const st=parseAmt($('#pS',m).value),b=parseAmt($('#pB',m).value);
-      if(!o)return;if(!(st>=1&&st<1e7))return invalid($('#pS',m),'Bitte einen Einsatz in CHF eingeben, z. B. 100.');if(!(b>0&&b<1e9))return invalid($('#pB',m),'Bitte den Kaufkurs eingeben.');
+      if(!o)return;if(!(st>=1&&st<1e7))return invalid($('#pS',m),'Bitte einen Einsatz in CHF eingeben, z. B. 250.');if(!(b>0&&b<1e9))return invalid($('#pB',m),'Bitte den Kaufkurs eingeben.');
       const rec={id:p?p.id:uid(),t,stake:st,buy:b,fx:p&&p.t===t?p.fx:o.fx,date:$('#pD',m).value||'',note:''};
       if(p)S.pos[S.pos.indexOf(p)]=rec;else S.pos.push(rec);closeModal();refresh();toast(p?'Position gespeichert':'Position erfasst')}})}
 function delPos(id){const p=S.pos.find(x=>x.id===id);if(!p)return;const k=S.pos.indexOf(p);S.pos.splice(k,1);refresh();toast('Position gelöscht',{label:'Rückgängig',fn:()=>{S.pos.splice(k,0,p);refresh()}})}
@@ -1278,6 +1311,9 @@ function renderSettings(){const el=$('#settingsView');const st=S.settings;const 
   const feeRows=[['Aktien, ETFs, ETPs','0.50 % bis CHF 10’000, 0.35 % bis CHF 20’000, darüber 0.25 % – mindestens CHF 1 je Kauf und je Verkauf'],['Krypto','1 % beim Kauf und 1 % beim Verkauf'],['Fremdwährung','0.95 % Wechselkurszuschlag je Richtung (USD, EUR, GBP …)'],['ETF-Sparplan','Wiederkehrende Kaufaufträge auf berechtigte ETFs: CHF 0 Handelsgebühr (ab CHF 10, wöchentlich oder monatlich, mind. 2 Ausführungen in Folge). Verkauf, Umsatzabgabe, Devisen und TER fallen weiter an.'],['Umsatzabgabe (Schätzung)','0.075 % CH-Titel, 0.15 % ausländische Titel je Seite'],['Depotgebühr','keine']];
   el.innerHTML=`<div class="grid">
   <div class="card span-12 more-links"><button class="ml" data-goto="plan"><span class="kpi-ico" style="background:var(--mint-soft);color:var(--mint)">${ic('coins')}</span><span><b>Sparplan</b><small>Gebührenfrei kaufen – ab CHF 10 pro Monat</small></span>${ic('chev','width:16px;height:16px')}</button><button class="ml" data-goto="how"><span class="kpi-ico" style="background:var(--accent-soft);color:var(--accent)">${ic('percent')}</span><span><b>So rechnet Kairos</b><small>Gebühren, Regeln, ehrlicher Rückblick-Test</small></span>${ic('chev','width:16px;height:16px')}</button></div>
+  <div class="card span-12"><div class="card-head"><div><div class="card-title">Anlage-Universum</div><div class="card-sub">Welche Titel Kairos für Signale und Kaufzone berücksichtigt</div></div></div>
+   <label class="switch-row"><input type="checkbox" id="sTech" role="switch"${techOn()?' checked':''}><span class="sw" aria-hidden="true"></span><span><b>Nur Tech</b><small>${D&&D.tech?`${D.tech.count} Tech-Aktien und Tech-ETFs bei Yuh (Halbleiter, Software, IT-Dienste, Hardware, Internet-Plattformen wie Alphabet, Meta, Amazon; Nasdaq-100- und Tech-ETFs)`:'Tech-Aktien und Tech-ETFs'}. Aus: alle ${D?D.count:''} Yuh-Titel. Watchlist und Positionen bleiben immer sichtbar.</small></span></label>
+   <p class="set-note">${ic('alert')}<span><b>Klumpenrisiko:</b> Nur eine Branche heisst grössere Schwankungen. ${D&&D.baskets&&D.baskets.tech?`Ein gleichgewichteter Korb aller Tech-Titel fiel 2022 zeitweise um ${pct(-D.baskets.tech.dd22,0,false)}, alle Yuh-Titel zusammen um ${pct(-D.baskets.all.dd22,0,false)}.`:''} Für den Grundstock eignet sich ein breiter Welt-ETF im Sparplan.</span></p></div>
   <div class="card span-7"><div class="card-head"><div><div class="card-title">Risikoprofil</div><div class="card-sub">Filtert, welche Kaufzone-Signale du siehst</div></div></div>
    <div class="radio-list">${Object.entries(PROFILES).map(([k,p])=>`<label class="radio-row"><input type="radio" name="risk" value="${k}"${st.risk===k?' checked':''}><span><b>${p.l}</b><small>${p.d}</small></span></label>`).join('')}</div></div>
   <div class="card span-5"><div class="card-head"><div><div class="card-title">Einsatz & Ziel</div><div class="card-sub">Für alle Netto-Berechnungen in CHF</div></div></div>
@@ -1293,6 +1329,7 @@ function renderSettings(){const el=$('#settingsView');const st=S.settings;const 
   <div class="card span-12"><div class="card-head"><div><div class="card-title">Darstellung & lokale Daten</div><div class="card-sub">Watchlist, Positionen und Einstellungen liegen nur auf diesem Gerät</div></div></div>
    <div class="set-actions"><button class="btn btn-secondary" data-action="theme">${ic('moon','width:16px;height:16px')}Farbschema wechseln</button><button class="btn btn-secondary" data-action="export">${ic('download','width:16px;height:16px')}Exportieren</button><button class="btn btn-secondary" data-action="import">${ic('upload','width:16px;height:16px')}Importieren</button><button class="btn btn-ghost-danger" data-action="wipe">${ic('trash','width:16px;height:16px')}Alles löschen</button></div></div>
   </div><p class="set-foot">Kairos ${APP_VERSION} · Keine Anlageberatung. Einschätzungen aus öffentlichen Daten, ohne Gewähr.</p>`;
+  const tg=$('#sTech',el);if(tg)tg.onchange=()=>{S.settings.tech=tg.checked;F.sig='all';F.type=F.region=F.sector='';refresh();toast(tg.checked?'Nur Tech: Signale nur für Tech-Titel':'Alle Yuh-Titel werden berücksichtigt')};
   $$('input[name=risk]',el).forEach(r=>r.onchange=()=>{S.settings.risk=r.value;refresh();toast(`Risikoprofil «${PROFILES[r.value].l}» aktiv`)});
 }
 function saveStake(){const a=parseAmt($('#sStake').value),g=parseAmt($('#sGoal').value);if(!(a>=10&&a<=1e6))return invalid($('#sStake'),'Bitte einen Einsatz zwischen CHF 10 und CHF 1’000’000 eingeben.');if(!(g>=1&&g<=1e5))return invalid($('#sGoal'),'Bitte einen Ziel-Gewinn ab CHF 1 eingeben.');S.settings.stake=a;S.settings.goal=g;refresh();toast(`Einsatz ${chf(a,0)} · Ziel-Gewinn ${chf(g,0)}`)}
@@ -1319,9 +1356,14 @@ function renderPlan(){const el=$('#planView');const D=DATA;
   <div class="card span-5" style="--i:1"><div class="card-head"><div><div class="card-title">So funktioniert der Yuh-Sparplan</div><div class="card-sub">Geprüft am ${dmy((D.fees&&D.fees.checked)||'2026-10-24')}</div></div></div>
     <ul class="facts"><li>${ic('check')}<span><b>CHF 0 Handelsgebühr</b> auf wiederkehrende Kaufaufträge für berechtigte ETFs</span></li><li>${ic('check')}<span>Ab <b>CHF ${grp((D.fees&&D.fees.plan_min)||10,0)}</b>, wöchentlich oder monatlich</span></li><li>${ic('alert')}<span>Mindestens <b>2 Ausführungen in Folge</b> – sonst gelten die normalen Gebühren</span></li><li>${ic('alert')}<span>Verkauf, Umsatzabgabe, Devisenzuschlag und Fondskosten (TER) fallen weiter an</span></li></ul>
     <p class="set-note">${ic('shield')}<span>Quellen: ${src.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,''))}</a>`).join(' · ')}. Berechtigte ETFs laut Yuh-Sparplan-Seite und AGB – in der Yuh-App prüfen.</span></p></div>
-  <div class="card span-12" style="--i:2"><div class="card-head"><div><div class="card-title">Sparplan-ETFs bei Yuh</div><div class="card-sub">Rückblick: CHF ${grp(P.monthly,0)} pro Monat über bis zu ${P.years} Jahre, Wert heute nach Verkaufsgebühr – Renditen in CHF</div></div></div>
+  ${(()=>{const TP=((D.tech&&D.tech.plan_etfs)||[]).map(t=>P.items.find(x=>x.t===t)).filter(Boolean);const other=((D.tech&&D.tech.etfs)||[]).filter(t=>!(D.tech.plan_etfs||[]).includes(t));
+    return `<div class="card span-12 tech-plan" style="--i:2"><div class="card-head"><div><div class="card-title">Tech im Sparplan <span class="pill-tech">Tech</span></div><div class="card-sub">Welche Tech-ETFs bei Yuh gebührenfrei im Sparplan gehen</div></div></div>
+    ${TP.length?`<p class="tp-lead">${TP.length===1?'Genau ein Tech-ETF ist für den gebührenfreien Sparplan berechtigt':TP.length+' Tech-ETFs sind für den gebührenfreien Sparplan berechtigt'}: ${TP.map(x=>`<button class="link-btn" data-open="${esc(x.t)}">${esc(x.n)} (${esc(x.t)})</button>`).join(', ')}. ${TP.map(x=>`Rückblick: ${chf(x.inv,0)} eingezahlt → ${chf(x.vp,0)} netto, grösster Rückgang ${pct(x.mdd,0)}.`).join(' ')}</p>`:'<p class="tp-lead">Aktuell ist kein Tech-ETF für den gebührenfreien Sparplan berechtigt.</p>'}
+    ${other.length?`<p class="set-note">${ic('info')}<span>${other.map(t=>esc((BY[t]&&BY[t].n)||t)+' ('+esc(t)+')').join(' und ')} ${other.length>1?'sind':'ist'} bei Yuh handelbar, aber nicht sparplanberechtigt – dort fallen die normalen Gebühren an.</span></p>`:''}
+    <p class="set-note">${ic('alert')}<span><b>Klumpenrisiko:</b> Ein Nasdaq-100-ETF steckt zu rund der Hälfte in seinen zehn grössten Titeln. Als Ergänzung sinnvoll, als einziger Baustein riskant – der Grundstock gehört in einen breiten Welt-ETF (Kern).</span></p></div>`})()}
+  <div class="card span-12" style="--i:3"><div class="card-head"><div><div class="card-title">Sparplan-ETFs bei Yuh</div><div class="card-sub">Rückblick: CHF ${grp(P.monthly,0)} pro Monat über bis zu ${P.years} Jahre, Wert heute nach Verkaufsgebühr – Renditen in CHF</div></div></div>
     <div class="plan-list">${items.map(x=>{const o=BY[x.t];const gain=x.vp-x.inv;return `<button class="plan-it" data-open="${esc(x.t)}">
-      <div class="pi-top">${o?mono(o):''}<div class="opp-m"><div class="ir-n">${esc(x.n)}${PLAN_CORE.includes(x.t)?'<span class="pill-chf">Kern</span>':''}</div><div class="ir-s">${esc(x.t)} · ${rk[x.risk]}${x.up!=null?` · ${x.up?'über':'unter'} 200-Tage-Linie`:''}</div></div>${o?badge(o):''}</div>
+      <div class="pi-top">${o?mono(o):''}<div class="opp-m"><div class="ir-n">${esc(x.n)}${PLAN_CORE.includes(x.t)?'<span class="pill-chf">Kern</span>':''}${o&&o.tech?'<span class="pill-tech">Tech</span>':''}</div><div class="ir-s">${esc(x.t)} · ${rk[x.risk]}${x.up!=null?` · ${x.up?'über':'unter'} 200-Tage-Linie`:''}</div></div>${o?badge(o):''}</div>
       <div class="pi-grid num"><div><small>1 J.</small><b class="${(x.r1||0)>=0?'pos':'negv'}">${pct(x.r1,1)}</b></div><div><small>3 J.</small><b class="${(x.r3||0)>=0?'pos':'negv'}">${pct(x.r3,0)}</b></div><div><small>5 J.</small><b class="${(x.r5||0)>=0?'pos':'negv'}">${x.r5==null?'–':pct(x.r5,0)}</b></div><div><small>Max. Rückgang</small><b class="negv">${pct(x.mdd,0)}</b></div></div>
       <div class="pi-sim num">${chf(x.inv,0)} eingezahlt (${x.m} Mt.) → <b class="${gain>=0?'pos':'negv'}">${chf(x.vp,0)}</b> netto · Gebühren ${chf(x.fp,0)} statt ${chf(x.fn,0)}</div></button>`}).join('')}</div>
     <p class="set-note">${ic('info')}<span>«Kern» = breit gestreute Welt- bzw. Schweiz-ETFs. Krypto- und Edelmetall-ETPs schwanken stark. Rückblick-Werte zeigen, was gewesen wäre – keine Garantie für die Zukunft. Keine Anlageberatung.</span></p></div>
@@ -1342,14 +1384,27 @@ function renderHow(){const el=$('#howView');const D=DATA;
       <div><span>Courtage Kauf (0.5 %, mind. CHF 1)</span><b>${chf(b.comm)}</b></div><div><span>Devisenzuschlag 0.95 %</span><b>${chf(b.fx)}</b></div><div><span>Umsatzabgabe (Schätzung)</span><b>${chf(b.stamp)}</b></div><div><span>Investiert</span><b>${chf(inv)}</b></div><div><span>Beim Verkauf nochmals</span><b>${chf(s0.total)}</b></div><div class="tot"><span>Der Kurs muss steigen um</span><b>+${grp(breakEven(stake,ex)*100,2)} %</b></div></div>
     <p class="set-note">${ic('shield')}<span>Quellen: ${((F.sources)||['https://www.yuh.com/en/pricing/']).map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,''))}</a>`).join(' · ')} (geprüft ${dmy(F.checked||'2026-10-24')}). Umsatzabgabe geschätzt, Spreads und TER nicht enthalten.</span></p></div>
   <div class="card span-6" style="--i:1"><div class="card-head"><div><div class="card-title">2 · Die Regeln</div><div class="card-sub">Wenige Trades, lange halten – weil jeder Trade Gebühren kostet</div></div></div>
-    <ol class="rules"><li><b>Nur intakte Aufwärtstrends:</b> Kurs über der 200-Tage-Linie, 50-Tage-Linie darüber, 200-Tage-Linie steigend, 12 Monate im Plus.</li><li><b>Zwei Setups:</b> Momentum (Top ${grp(R.mom_top*100||10,0)} % aller Titel nach 12-Monats-Rendite ohne letzten Monat) oder Rücksetzer an die 50-Tage-Linie (RSI ≤ 48).</li><li><b>Rund 6 Monate halten</b> (${R.hold} Handelstage), dann neu prüfen. Kein enger Stopp: Im Test kosteten Stopps mehr Gebühren, als sie Verluste sparten.</li><li><b>Gebührenfilter:</b> Kaufzone nur, wenn bei deinem Einsatz nach allen Gebühren im Schnitt mindestens ${chf(R.min_ev)} übrig bleiben und die Gebühren höchstens ${grp(R.max_fee_share*100,0)} % des erwarteten Gewinns fressen.</li><li><b>Keine Krypto-Kaufzone:</b> Krypto war über 6 Monate im Test im Schnitt negativ.</li></ol></div>
+    <ol class="rules"><li><b>Nur intakte Aufwärtstrends:</b> Kurs über der 200-Tage-Linie, 50-Tage-Linie darüber, 200-Tage-Linie steigend, 12 Monate im Plus.</li><li><b>Zwei Setups:</b> Momentum (Top ${grp(R.mom_top*100||10,0)} % aller Titel nach 12-Monats-Rendite ohne letzten Monat) oder Rücksetzer an die 50-Tage-Linie (RSI ≤ 48).</li><li><b>Rund 6 Monate halten</b> (${R.hold} Handelstage), dann neu prüfen. Kein enger Stopp: Im Test kosteten Stopps mehr Gebühren, als sie Verluste sparten.</li><li><b>Gebührenfilter:</b> Kaufzone nur, wenn bei deinem Einsatz nach allen Gebühren im Schnitt mindestens ${chf(R.min_ev)} übrig bleiben und die Gebühren höchstens ${grp(R.max_fee_share*100,0)} % des erwarteten Gewinns fressen.</li><li><b>Keine Krypto-Kaufzone:</b> Krypto war über 6 Monate im Test im Schnitt negativ.</li><li><b>Nur Tech</b> (Standard, in den Einstellungen abschaltbar): Kaufzone nur für ${D.tech?D.tech.count:''} Tech-Aktien und Tech-ETFs. Die Erwartung stammt bewusst aus allen Titeln – die reine Tech-Historie ist durch den Tech-Boom geschönt.</li><li><b>Standard-Einsatz CHF 250:</b> Ab hier fällt die Mindestgebühr von CHF 1 kaum noch ins Gewicht (Kosten hin und zurück rund 1.2 % statt 2.2 % bei CHF 100).</li></ol></div>
   <div class="card span-6" style="--i:2"><div class="card-head"><div><div class="card-title">3 · Woher die Erwartung kommt</div><div class="card-sub">Verteilung aller früheren Signale derselben Art, Kurs in CHF</div></div></div>${cls}
     <p class="set-note">${ic('info')}<span>Für jedes Signal rechnet Kairos alle früheren Ausgänge (50 Stützstellen der Verteilung) einzeln mit deinem Einsatz und den Yuh-Gebühren dieses Titels durch – Mindestgebühr, Devisenzuschlag und Umsatzabgabe inklusive. Der Durchschnitt ist die «Erwartung», der Median «typisch», das schlechteste Zehntel der «schlechte Fall».</span></p></div>
   <div class="card span-12" style="--i:3"><div class="card-head"><div><div class="card-title">4 · Ehrlicher Rückblick-Test</div><div class="card-sub">Walk-forward: Für jeden Trade nur Daten, die damals schon bekannt waren. Lernzeitraum 2017–2021, Test ab 2022.</div></div></div>${btTable()}
     ${fnd.length?`<ul class="facts">${fnd.map(f=>`<li>${ic('info')}<span>${esc(f)}</span></li>`).join('')}</ul>`:''}</div>
-  <div class="card span-12" style="--i:4"><div class="card-head"><div><div class="card-title">5 · Was das für dich heisst</div></div></div>
-    <ul class="facts"><li>${ic('check')}<span><b>Regelmässig kleine Beträge?</b> <button class="link-btn" data-goto="plan">Sparplan</button> – gebührenfreier Kauf schlägt jeden Einzeltrade.</span></li><li>${ic('check')}<span><b>Einzeltitel:</b> Lieber selten und mit genug Einsatz. Bei CHF 50 frisst allein die Mindestgebühr 4 % hin und zurück.</span></li><li>${ic('check')}<span><b>CHF-Titel bevorzugen:</b> Ohne Devisenzuschlag kostet derselbe Trade etwa halb so viel.</span></li><li>${ic('alert')}<span>Verzerrungen: Getestet wurden nur Titel, die heute bei Yuh handelbar sind, und 2017–2026 war überwiegend ein Aufwärtsmarkt. Keine Anlageberatung.</span></li></ul></div>
+  ${techSection(D)}
+  <div class="card span-12" style="--i:5"><div class="card-head"><div><div class="card-title">6 · Was das für dich heisst</div></div></div>
+    <ul class="facts"><li>${ic('check')}<span><b>Regelmässig kleine Beträge?</b> <button class="link-btn" data-goto="plan">Sparplan</button> – gebührenfreier Kauf schlägt jeden Einzeltrade.</span></li><li>${ic('check')}<span><b>Einzeltitel:</b> Lieber selten und mit genug Einsatz – Standard ist CHF 250. Bei CHF 50 frisst allein die Mindestgebühr 4 % hin und zurück.</span></li><li>${ic('alert')}<span><b>Tech-Fokus:</b> Höhere Chancen, aber auch tiefere Einbrüche. Nicht mehr in Tech-Einzeltitel stecken, als du einen Rückgang um die Hälfte aushalten würdest.</span></li><li>${ic('check')}<span><b>CHF-Titel bevorzugen:</b> Ohne Devisenzuschlag kostet derselbe Trade etwa halb so viel.</span></li><li>${ic('alert')}<span>Verzerrungen: Getestet wurden nur Titel, die heute bei Yuh handelbar sind, und 2017–2026 war überwiegend ein Aufwärtsmarkt. Keine Anlageberatung.</span></li></ul></div>
   </div>`}
+
+function techSection(D){const T=D.backtest_tech,A=D.backtest,BT=D.baskets||{},bt=BT.tech,ba=BT.all;if(!T||!bt)return '';
+  const cell=(G,k)=>{const g=G&&G.gate&&G.gate[k];return g&&g.n?`<td class="${g.net>0?'pos':'negv'}${k==='250'?' hl':''}">${chfS(g.net)}<small class="tn">${grp(g.n,0)}</small></td>`:`<td${k==='250'?' class="hl"':''}>–</td>`};
+  const per=[['is','2017–2021'],['oos','ab 2022'],['l12','letzte 12 Mt.']];
+  const tbl=`<div class="tbl-wrap"><table class="tbl num bt2 cmp"><thead><tr><th>Kaufzone</th><th>CHF 100</th><th class="hl">CHF 250</th><th>CHF 500</th></tr></thead><tbody>${per.map(([k,l])=>`<tr class="g-tech"><td>Nur Tech<small class="tn">${l}</small></td>${['100','250','500'].map(x=>cell(T[k],x)).join('')}</tr><tr class="g-kz"><td>Alle Titel<small class="tn">${l}</small></td>${['100','250','500'].map(x=>cell(A[k],x)).join('')}</tr>`).join('')}</tbody></table></div>`;
+  const yrs=Object.keys(bt.years||{}).filter(y=>y>='2017');
+  const yt=`<div class="tbl-wrap"><table class="tbl num yrs"><thead><tr><th>Jahr</th><th>Tech-Korb</th><th>Alle Titel</th><th>Tech-Kaufzone<small class="tn">Ø netto bei CHF 250</small></th></tr></thead><tbody>
+    ${yrs.map(y=>{const a=bt.years[y],b2=ba.years[y],v=T.years&&T.years[y];return `<tr${y==='2022'?' class="y-bad"':''}><td>${y}${y===String(new Date().getFullYear())?'<small class="tn">bisher</small>':''}</td><td class="${a>=0?'pos':'negv'}">${pct(a,0)}</td><td class="${b2>=0?'pos':'negv'}">${pct(b2,0)}</td>${v?`<td class="${v.net250>0?'pos':'negv'}">${chfS(v.net250)}<small class="tn">${v.n} Trades</small></td>`:'<td>–</td>'}</tr>`}).join('')}</tbody></table></div>`;
+  return `<div class="card span-12" style="--i:4"><div class="card-head"><div><div class="card-title">5 · Tech-Fokus und Klumpenrisiko <span class="pill-tech">Tech</span></div><div class="card-sub">${D.tech?esc(D.tech.rule):''}</div></div></div>
+   <div class="pc-grid num tech-kpi"><div><small>Grösster Rückgang 2022</small><b class="negv">${pct(bt.dd22,0)}</b><span>Tech-Korb · alle Titel ${pct(ba.dd22,0)}</span></div><div><small>Schwankung pro Jahr</small><b>${pct(bt.vol,0,false)}</b><span>Tech · alle Titel ${pct(ba.vol,0,false)}</span></div><div><small>Ø Rendite pro Jahr seit 2016</small><b class="pos">${pct(bt.cagr,0)}</b><span>Tech · alle Titel ${pct(ba.cagr,0)}</span></div></div>
+   ${tbl}${yt}
+   <p class="set-note">${ic('alert')}<span><b>Ehrlich:</b> Tech lief seit 2016 deutlich besser als der Rest – aber genau das macht den Rückblick zu optimistisch: Getestet sind die Tech-Titel, die es heute bei Yuh gibt, also die Überlebenden des Booms. 2022 brach der Tech-Korb zeitweise um ${pct(-bt.dd22,0,false)} ein, und Tech-Kaufzonen von 2022 verloren im Schnitt. Ab 2022 stützt sich das Tech-Ergebnis auf wenige Trades (kleine Zahlen = Anzahl). «Die Branche wächst stark» ist schon im Kurs eingepreist – höhere Erwartung heisst hier vor allem höheres Risiko. Korb = alle Titel gleich gewichtet, täglich in CHF.</span></p></div>`}
 
 /* ===== Modal-Grundlagen ===== */
 let lastFocus=null;
@@ -1388,7 +1443,7 @@ function tradeBox(o){const stake=stakeOf(o);
   const verdict=pass?`<span class="vd ok">${ic('check','width:14px;height:14px')}Lohnt sich bei ${chf(stake,0)}</span>`:gs?`<span class="vd warn">${ic('alert','width:14px;height:14px')}Lohnt sich erst ab ${chf(gs,0)}</span>`:`<span class="vd bad">${ic('ban','width:14px;height:14px')}Lohnt sich bei Yuh nicht</span>`;
   const g=Math.max(c.gross||0,0.0001),fw=clamp((c.gross-c.e)/g*100,0,100);
   return `<div class="tbox${pass?'':' blocked'}"><div class="tb-h">${ic('target')}<b>${esc(SETUP_DE[p.setup])}</b>${verdict}</div>
-   ${ok?'':`<div class="note-bar warn">${ic('alert')}<span>Passt nicht zu deinem Risikoprofil «${PROFILES[S.settings.risk].l}» – nur zur Information.</span></div>`}
+   ${ok?'':!inScope(o)?`<div class="note-bar warn">${ic('alert')}<span>Kein Tech-Titel – mit «Nur Tech» gibt es dafür keine Kaufzone, nur zur Information. <button class="link-btn" data-goto="settings">Einstellung</button></span></div>`:`<div class="note-bar warn">${ic('alert')}<span>Passt nicht zu deinem Risikoprofil «${PROFILES[S.settings.risk].l}» – nur zur Information.</span></div>`}
    <div class="tb-stake"><label for="dStake">Einsatz</label><div class="amount-input"><span>CHF</span><input class="input num" id="dStake" inputmode="decimal" value="${stake}"></div>${S.stakes[o.t]?`<button class="link-btn" data-action="stakereset">Standard (${chf(S.settings.stake,0)})</button>`:''}</div>
    <div class="tb-main num">Einsatz ${chf(stake,0)} → <b class="${c.e>0?'pos':'negv'}">erwartet ${chfS(c.e)}</b> netto nach rund 6 Monaten</div>
    <div class="feebar" role="img" aria-label="Erwarteter Bruttogewinn ${chf(c.gross)}, davon Gebühren ${grp(fw,0)} Prozent"><div class="fb-track"><i class="fb-net" style="width:${(100-fw).toFixed(1)}%"></i><i class="fb-fee" style="width:${fw.toFixed(1)}%"></i></div><div class="fb-leg num"><span><i class="d-net"></i>Netto ${chfS(c.e)}</span><span><i class="d-fee"></i>Gebühren ${grp(Math.min(c.share,9.99)*100,0)} % des Bruttogewinns</span><span>Brutto ${chfS(c.gross)}</span></div></div>
@@ -1400,7 +1455,7 @@ function tradeBox(o){const stake=stakeOf(o);
     <div><small>Break-even</small><b>Kurs +${grp(c.be*100,2)} %</b></div>
     <div><small>Halten bis ca.</small><b>${dmy(p.hz)}</b></div>
    </div>
-   <div class="fees num"><div><span>Kaufgebühr</span><b>${chf(c.buy.total)}</b></div><div><span>Verkaufsgebühr (typisch)</span><b>${chf(c.sell.total)}</b></div>${o.fxfee?`<div><span>davon Devisenzuschlag</span><b>${chf(c.fx)}</b></div>`:''}<div><span>Gebühren total</span><b>${chf(c.fees)}</b></div><div><span>Einstieg</span><b>${money(p.e,o.ccy)}</b></div></div>
+   <div class="fees num"><div><span>Kaufgebühr</span><b>${chf(c.buy.total)}</b></div><div><span>Verkaufsgebühr (typisch)</span><b>${chf(c.sell.total)}</b></div><div><span>Gebühren total</span><b>${chf(c.fees)}</b></div>${o.fxfee?`<div><span>davon Devisen (beide Richtungen)</span><b>${chf(c.fx)}</b></div>`:''}<div><span>Einstieg</span><b>${money(p.e,o.ccy)}</b></div></div>
    ${!pass?`<div class="note-bar warn">${ic('alert')}<span>${c.e<R.min_ev?`Bei ${chf(stake,0)} bleibt nach Gebühren im Schnitt ${c.e>0?'nur ':''}${chfS(c.e)} übrig.`:`Gebühren fressen ${grp(Math.min(c.share,9.99)*100,0)} % des erwarteten Gewinns (Grenze ${grp(R.max_fee_share*100,0)} %).`} ${gs?`Ab etwa <b>${chf(gs,0)}</b> Einsatz wäre es eine Kaufzone.`:'Wegen des Devisenzuschlags lohnt sich das bei keinem Einsatz.'}${o.fxfee?' CHF-Titel an der SIX haben keinen Devisenzuschlag.':''}</span></div>`:c.share<=R.good_fee_share?`<div class="note-bar ok">${ic('check')}<span>Gebühren nur ${grp(c.share*100,0)} % des erwarteten Gewinns${o.ccy==='CHF'&&!o.fxfee?' – CHF-Titel, kein Devisenzuschlag':''}.</span></div>`:`<div class="note-bar ok">${ic('check')}<span>Lohnt sich, aber Gebühren nehmen ${grp(c.share*100,0)} % des erwarteten Gewinns${ms&&ms>stake?` – effizienter ab etwa ${chf(ms,0)} Einsatz`:''}${o.fxfee?'. Der Devisenzuschlag (0.95 % je Richtung) bleibt bei jedem Einsatz':''}.</span></div>`}
    <div class="goalrow">${ic('coins')}<span>Ziel <b>${chf(goal,0)} netto</b>: Mit ${chf(stake,0)} lag das in <b>${pct(pg,0,false)}</b> der früheren Fälle drin. ${sf?`Beim typischen Verlauf bräuchtest du etwa <b class="num">${chf(sf,0)}</b> Einsatz – im schlechten Fall (1 von 10) wären das ${chfS(netAt(sf,st.p10,o))}.`:'Beim typischen Verlauf mit vernünftigem Einsatz nicht erreichbar.'}</span></div>
    <p class="fine">Erwartung aus ${grp(st.n,0)} früheren Signalen derselben Art (alle Yuh-Titel, 10 Jahre), jeder Ausgang einzeln nach Yuh-Gebühren gerechnet. Regel: kaufen, rund 6 Monate (${p.hd} Handelstage) halten, dann neu prüfen – ohne engen Stopp, weil Stopps im Test mehr Gebühren als Nutzen brachten. Ein Modellwert, keine Prognose. <button class="link-btn" data-goto="how">So rechnet Kairos</button></p></div>`}
@@ -1421,7 +1476,7 @@ function rerenderDetail(){const sc=$('#modal').scrollTop;openDetail(detailT);$('
 function drawHist(o,h){const el=$('#dHist');if(!el)return;if(!h){el.innerHTML='<div class="soft-empty">Keine Historie verfügbar.</div>';return}
   const sig=(h.sig||[]).slice(-30);const bt=(h.bt||[]).slice().reverse();
   el.innerHTML=`<div class="sh-row">${sig.map(([d,k,s])=>`<span class="shd s-${sigCls(k)}" title="${dmy(d)}: ${k} (Score ${s})"></span>`).join('')}</div><div class="sh-leg">${sig.length?`${sig.length} Tag${sig.length>1?'e':''} aufgezeichnet seit ${dmy(sig[0][0])} · aktuell ${sigBadgeK(sigEff(o))}`:''}</div>
-  ${bt.length?`<div class="tbl-wrap"><table class="tbl num"><thead><tr><th>Signal (Rückblick)</th><th>Setup</th><th>Verkauf</th><th>Kurs in CHF</th><th>Netto bei CHF 100</th></tr></thead><tbody>${bt.map(b=>`<tr><td>${dmy(b.d)}</td><td>${esc(SETUP_DE[b.s]||b.s)}</td><td>${dmy(b.dx)}</td><td class="${b.ret>0?'pos':'negv'}">${pct(b.ret)}</td><td class="${b.net100>0?'pos':'negv'}">${chfS(b.net100)}</td></tr>`).join('')}</tbody></table></div><p class="fine">Frühere Setups dieses Titels nach den heutigen Regeln (kaufen, 6 Monate halten), vor dem Gebührenfilter. Vergangene Ergebnisse sind keine Garantie.</p>`:'<p class="fine">Im Rückblick-Test gab es für diesen Titel keine Setups nach den heutigen Regeln.</p>'}`}
+  ${bt.length?`<div class="tbl-wrap"><table class="tbl num"><thead><tr><th>Signal (Rückblick)</th><th>Setup</th><th>Verkauf</th><th>Kurs in CHF</th><th>Netto bei ${chf(stakeOf(o),0)}</th></tr></thead><tbody>${bt.map(b=>`<tr><td>${dmy(b.d)}</td><td>${esc(SETUP_DE[b.s]||b.s)}</td><td>${dmy(b.dx)}</td><td class="${b.ret>0?'pos':'negv'}">${pct(b.ret)}</td>${(()=>{const nv=netAt(stakeOf(o),b.ret,o);return `<td class="${nv>0?'pos':'negv'}">${chfS(nv)}</td>`})()}</tr>`).join('')}</tbody></table></div><p class="fine">Frühere Setups dieses Titels nach den heutigen Regeln (kaufen, 6 Monate halten), vor dem Gebührenfilter. Vergangene Ergebnisse sind keine Garantie.</p>`:'<p class="fine">Im Rückblick-Test gab es für diesen Titel keine Setups nach den heutigen Regeln.</p>'}`}
 function drawChart(o,h){const el=$('#dChart');if(!el)return;if(!h||!h.d||h.d.length<2){el.innerHTML='<div class="chart-load">Kein Verlauf verfügbar.</div>';return}
   const n={'1M':22,'6M':130,'1Y':400}[chartRange];const k=o.ty==='Krypto'?{'1M':31,'6M':183,'1Y':366}[chartRange]:n;
   const D=h.d.slice(-k),V=h.chf.slice(-k),N=h.c.slice(-k);const W=640,H=220,P=6;
